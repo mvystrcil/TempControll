@@ -41,6 +41,6 @@ void ThermometerStatistics::updateAllThermometers() const
     for(it; it != array.end(); it++)
     {
         Thermometer &thermometer = *it;
-        dbg << "Temp " << thermometer.getThermometerName() << thermometer.getTemperature();
+        dbg << "Temp " << thermometer.getThermometerName() << thermometer.getTemperature() << lf;
     }
 }
