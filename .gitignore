@@ -1,2 +1,9 @@
+# build things
 build/*
 *.log
+
+# eclipse project settings
+.cproject
+.project
+.settings/*
+
