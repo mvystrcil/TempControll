@@ -1,4 +1,5 @@
 #include "thermometer.hpp"
+#include "../lib/logger.h"
 
 Thermometer::Thermometer(const string &name)
 {
@@ -24,6 +25,8 @@ int Thermometer::getTemperature() const
 bool Thermometer::updateTemperature(const int temperature)
 {
     this->temperature = temperature;
+
+    return true;
 }
 
 bool Thermometer::operator ==(const Thermometer& other) const

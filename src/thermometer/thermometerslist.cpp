@@ -1,6 +1,5 @@
 #include "thermometerslist.h"
-
-#include <iostream>
+#include "../lib/logger.h"
 
 ThermometersList::ThermometersList()
 {
@@ -35,7 +34,7 @@ bool ThermometersList::registerThermometer(const Thermometer &thermometer)
         }
     }
 
-    cout << "Append thermometer " << thermometer.getThermometerName() << endl;
+    dbg << "Append thermometer " << thermometer.getThermometerName() << lf;
     this->meters.push_back(thermometer);
 
     return true;

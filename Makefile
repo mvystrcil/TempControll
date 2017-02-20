@@ -34,17 +34,17 @@ all: $(OBJS) $(MAIN_OBJS) $(UNITS_OBJS)
 	@echo "### Link $(UNITS_EXEC)"
 	$(CXX) $(UNITS_OBJS) $(OBJS) -o $(UNITS_EXEC) $(LDFLAGS)
 
-units: $(UNITS_OBJS)
-	$(CXX) $(UNITS_OBJS) $(OBJS) -o $(UNITS_EXEC) $(LDFLAGS)
+#units: $(UNITS_OBJS)
+#	$(CXX) $(UNITS_OBJS) $(OBJS) -o $(UNITS_EXEC) $(LDFLAGS)
 
 
 # Build for target program
-$(BUILD_DIR)/$(TARGET_EXEC): $(OBJS)
-	$(CXX) $(OBJS) -o $@ $(LDFLAGS)
+#$(BUILD_DIR)/$(TARGET_EXEC): $(OBJS)
+#	$(CXX) $(OBJS) -o $@ $(LDFLAGS)
 
 # Build for units test program
-$(BUILD_DIR)/$(UNITS_EXEC): $(UNITS_OBJS)
-	$(CXX) $(UNITS_OBJS) -o $@ $(LDFLAGS)
+#$(BUILD_DIR)/$(UNITS_EXEC): $(UNITS_OBJS)
+#	$(CXX) $(UNITS_OBJS) -o $@ $(LDFLAGS)
 
 # assembly
 $(BUILD_DIR)/%.s.o: %.s

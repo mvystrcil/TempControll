@@ -4,8 +4,6 @@
 #include "thermometer.hpp"
 #include <vector>
 
-using namespace std;
-
 class ThermometersList
 {
 public:

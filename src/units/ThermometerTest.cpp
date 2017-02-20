@@ -8,8 +8,6 @@
 #include "ThermometerTest.h"
 #include <string>
 
-using namespace std;
-
 void ThermometerTest::setUp()
 {
 	thermometerA = new Thermometer("A");

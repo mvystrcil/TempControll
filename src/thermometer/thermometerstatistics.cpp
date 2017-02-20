@@ -1,7 +1,6 @@
 #include "thermometerstatistics.h"
-
-#include <iostream>
 #include "thermometerslist.h"
+#include "../lib/logger.h"
 
 using namespace std;
 
@@ -42,6 +41,6 @@ void ThermometerStatistics::updateAllThermometers() const
     for(it; it != array.end(); it++)
     {
         Thermometer &thermometer = *it;
-        cout << "Temp for " << thermometer.getThermometerName() << " " << thermometer.getTemperature() << endl;
+        dbg << "Temp " << thermometer.getThermometerName() << thermometer.getTemperature();
     }
 }
