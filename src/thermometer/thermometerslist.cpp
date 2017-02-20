@@ -2,8 +2,6 @@
 
 #include <iostream>
 
-ThermometersList* ThermometersList::instance = NULL;
-
 ThermometersList::ThermometersList()
 {
 
@@ -11,25 +9,24 @@ ThermometersList::ThermometersList()
 
 ThermometersList::~ThermometersList()
 {
-    delete(instance);
-    instance = NULL;
 }
 
-ThermometersList* ThermometersList::getInstance()
+ThermometersList& ThermometersList::getInstance()
 {
-    if(ThermometersList::instance == NULL)
-    {
-        instance = new ThermometersList();
-    }
-
+	static ThermometersList instance;
     return instance;
+}
+
+void ThermometersList::resetInstance()
+{
+	// Do nothing right now
 }
 
 bool ThermometersList::registerThermometer(const Thermometer &thermometer)
 {
-    vector<Thermometer>::iterator iterator = this->meters.begin();
+    vector<Thermometer>::iterator iterator;
 
-    for(iterator; iterator != this->meters.end(); iterator++)
+    for(iterator = this->meters.begin(); iterator != this->meters.end(); iterator++)
     {
         Thermometer &th = *iterator;
         if(th == thermometer)
@@ -46,9 +43,9 @@ bool ThermometersList::registerThermometer(const Thermometer &thermometer)
 
 bool ThermometersList::unregisterThermometer(const Thermometer &thermometer)
 {
-    vector<Thermometer>::iterator it = this->meters.begin();
+    vector<Thermometer>::iterator it;
 
-    for(it; it != this->meters.end(); it++)
+    for(it = this->meters.begin(); it != this->meters.end(); it++)
     {
         Thermometer &th = *it;
         if(th == thermometer)

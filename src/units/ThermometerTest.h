@@ -50,7 +50,6 @@ protected:
 private:
 	Thermometer *thermometerA;
 	Thermometer *thermometerB;
-    ThermometersList *list;
 
 };
 

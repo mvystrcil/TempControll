@@ -9,18 +9,18 @@ using namespace std;
 class ThermometersList
 {
 public:
-    static ThermometersList *getInstance();
-    ~ThermometersList();
+    static ThermometersList& getInstance();
+    static void resetInstance();
 
     bool registerThermometer(const Thermometer &thermometer);
     bool unregisterThermometer(const Thermometer &thermometer);
     vector<Thermometer> getRegisteredList() const;
 
 private:
-    static ThermometersList *instance;
     vector<Thermometer> meters;
 
     ThermometersList();
+    ~ThermometersList();
 };
 
 #endif // THERMOMETERSLIST_H

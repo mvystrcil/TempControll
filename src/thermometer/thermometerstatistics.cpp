@@ -34,8 +34,8 @@ bool ThermometerStatistics::startStatsColl() const
 
 void ThermometerStatistics::updateAllThermometers() const
 {
-    ThermometersList *list = ThermometersList::getInstance();
-    vector<Thermometer> array = list->getRegisteredList();
+    ThermometersList& list = ThermometersList::getInstance();
+    vector<Thermometer> array = list.getRegisteredList();
 
     vector<Thermometer>::iterator it = array.begin();
 
