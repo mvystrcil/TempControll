@@ -5,7 +5,7 @@
  *      Author: martin
  */
 
-#include "ThermometerTest.h"
+#include "thermometertest.h"
 #include <string>
 
 void ThermometerTest::setUp()

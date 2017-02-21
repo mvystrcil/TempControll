@@ -23,7 +23,8 @@ INC_FLAGS := $(addprefix -I,$(INC_DIRS))
 LDFLAGS := -L/usr/lib/ -lm -ldl -lcppunit -g
 D_UNITS := -D_UNIT_TESTS
 
-CPPFLAGS := $(INC_FLAGS) -I/usr/local/include -MMD -MP -g $(LD_FLAGS)
+CXX_11 := -std=c++11
+CPPFLAGS := $(INC_FLAGS) $(CXX_11) -I/usr/local/include -MMD -MP -g $(LD_FLAGS)
 
 .PHONY: clean
 .PHONY: units
@@ -65,6 +66,8 @@ $(BUILD_DIR)/%.cpp.o: %.cpp
 
 clean:
 	$(RM) -r $(BUILD_DIR)
+	$(RM) logger.log
+	$(RM) units.log
 
 MKDIR_P := mkdir -p
 

@@ -2,6 +2,7 @@
 #include "thermometer/thermometerstatistics.h"
 #include "thermometer/thermometerslist.h"
 #include "thermometer/thermometerstatistics.h"
+#include "lib/timerlib.h"
 
 #include <string>
 
@@ -22,7 +23,7 @@ int main(int argc, char* argv[])
     list.registerThermometer(th2);
 
     stats.startStatsColl();
-
-	return 0;	
+    
+    return 0;	
 }
 #endif

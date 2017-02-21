@@ -3,11 +3,12 @@
 
 ThermometersList::ThermometersList()
 {
-
+  
 }
 
 ThermometersList::~ThermometersList()
 {
+  
 }
 
 ThermometersList& ThermometersList::getInstance()

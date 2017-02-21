@@ -1,6 +1,8 @@
 #ifndef THERMOMETERSTATISTICS_H
 #define THERMOMETERSTATISTICS_H
 
+#include "../lib/timerlib.h"
+
 class ThermometerStatistics
 {
 public:
@@ -8,12 +10,14 @@ public:
 
     int getUpdateTimeout() const;
     bool setUpdateTimeout(const int updateTimeout);
-    bool startStatsColl() const;
+    bool startStatsColl();
+    bool stopStatsColl() const;
 
 private:
     int updateTimeout;
+    TimerLib timer;
 
-    void updateAllThermometers() const;
+    void updateAllThermometers();
 };
 
 #endif // THERMOMETERSTATISTICS_H

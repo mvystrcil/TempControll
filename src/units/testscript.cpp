@@ -1,7 +1,7 @@
 #include <cppunit/TestSuite.h>
 #include <cppunit/ui/text/TestRunner.h>
  
-#include "ThermometerTest.h"
+#include "thermometertest.h"
 #include "../lib/logger.h"
 
 Logger dbg("units.log", false);

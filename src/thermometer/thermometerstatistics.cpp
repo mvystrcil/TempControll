@@ -2,11 +2,10 @@
 #include "thermometerslist.h"
 #include "../lib/logger.h"
 
-using namespace std;
+using namespace std::placeholders;
 
 ThermometerStatistics::ThermometerStatistics(int updateTimeout) : updateTimeout(updateTimeout)
 {
-
 }
 
 int ThermometerStatistics::getUpdateTimeout() const
@@ -20,18 +19,28 @@ bool ThermometerStatistics::setUpdateTimeout(const int updateTimeout)
     return true;
 }
 
-bool ThermometerStatistics::startStatsColl() const
+bool ThermometerStatistics::startStatsColl()
 {
-    this->updateAllThermometers();
-    return true;
+  TimeoutCallback callback = std::bind(
+    &ThermometerStatistics::updateAllThermometers, this);
+  
+  timer.registerHandler(callback, 200);
+  
+  return true;
 }
+
+bool ThermometerStatistics::stopStatsColl() const
+{
+  return true;
+}
+
 
 
 /*
  * Private functions implementation
 */
 
-void ThermometerStatistics::updateAllThermometers() const
+void ThermometerStatistics::updateAllThermometers(void)
 {
     ThermometersList& list = ThermometersList::getInstance();
     vector<Thermometer> array = list.getRegisteredList();
