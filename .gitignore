@@ -7,3 +7,6 @@ build/*
 .project
 .settings/*
 
+# KDevelop project settings
+.kdev4/
+tempcontroller.kdev4
