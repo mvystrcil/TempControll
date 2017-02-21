@@ -20,7 +20,7 @@ UNITS_DEPS := $(UNITS_OBJS:.o=.d)
 
 INC_DIRS := $(shell find $(SRC_DIRS) -type d)
 INC_FLAGS := $(addprefix -I,$(INC_DIRS))
-LDFLAGS := -L/usr/lib/ -lm -ldl -lcppunit -g
+LDFLAGS := -L/usr/lib/ -lm -ldl -lcppunit -lpthread -g
 D_UNITS := -D_UNIT_TESTS
 
 CXX_11 := -std=c++11

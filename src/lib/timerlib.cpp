@@ -1,6 +1,8 @@
 #include "timerlib.h"
 #include "../lib/logger.h"
 
+#include <chrono>
+
 TimerLib::TimerLib()
 {
 
@@ -15,6 +17,31 @@ TimerLib::TimerLib()
 
 bool TimerLib::registerHandler(TimeoutCallback callback, int timeout)
 {
-  dbg << "Register callback" << lf;
+  m_callback = callback;
+  m_timeout = m_timeout;
+  m_stop = false;
+  m_execution = std::thread(&TimerLib::timeout, this);
+  
+  m_execution.join();
+  
+  dbg << "Register callback to fire every " << timeout << lf;
 }
+
+bool TimerLib::stopExecution()
+{
+  return true;
+}
+
+void TimerLib::timeout()
+{
+  dbg << "Thread started, sleep before emitting signal" << lf;
+  
+  /*while(! m_stop)
+  {
+    std::this_thread::sleep_for(m_timeout);
+    dbg << "Will sleep for some time " << lf;
+  }*/
+}
+
+
 
