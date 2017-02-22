@@ -11,11 +11,13 @@
 #include <iostream>
 #include <fstream>
 #include <string>
+#include <mutex>
 
 class Logger {
 private:
 	bool cout;
 	std::ofstream output;
+	std::mutex mutex;
 
 public:
 	Logger(std::string filename, bool cout);

@@ -21,8 +21,7 @@ bool TimerLib::registerHandler(TimeoutCallback callback, int timeout)
   m_timeout = m_timeout;
   m_stop = false;
   m_execution = std::thread(&TimerLib::timeout, this);
-  
-  m_execution.join();
+  m_execution.detach();
   
   dbg << "Register callback to fire every " << timeout << lf;
 }
@@ -35,6 +34,8 @@ bool TimerLib::stopExecution()
 void TimerLib::timeout()
 {
   dbg << "Thread started, sleep before emitting signal" << lf;
+  std::this_thread::sleep_for(std::chrono::milliseconds(1500));
+  dbg << "Thread done" << lf;
   
   /*while(! m_stop)
   {

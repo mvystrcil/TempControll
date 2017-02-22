@@ -8,8 +8,10 @@
 #include "logger.h"
 
 Logger::Logger(std::string filename, bool cout) {
+  mutex.lock();
 	output.open(filename.c_str());
 	this->cout = cout;
+	mutex.unlock();
 }
 
 Logger::~Logger() {
