@@ -3,24 +3,32 @@
 
 #include <functional>
 #include <thread>
+#include <vector>
 
 typedef std::function<void (void)> TimeoutCallback;
 
 class TimerLib
 {
 private:
-  TimeoutCallback m_callback;
-  bool m_stop;
-  std::thread m_execution;
-  std::chrono::milliseconds m_timeout;
+  class Event {
+    public:
+      Event(TimeoutCallback callback, int timeout);
+      TimeoutCallback m_callback;
+      int m_timeout;
+      bool m_stop;
+      
+      void timeout();
+  };
   
-  void timeout();
+  std::vector<Event> threads;
   
 public:
   TimerLib();
+  
+  const int PROBLEM_WHILE_THREAD_CREATION = -1;
 
     // https://thebytekitchen.com/2013/01/14/harder-to-c-aligned-memory-allocation-4/
-    bool registerHandler(TimeoutCallback callback, int timeout);
+    int registerHandler(TimeoutCallback callback, int timeout);
     bool stopExecution();
     
     

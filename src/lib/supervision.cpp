@@ -47,3 +47,6 @@ void Supervision::initThermometers()
   
   stats.startStatsColl();
 }
+
+
+
