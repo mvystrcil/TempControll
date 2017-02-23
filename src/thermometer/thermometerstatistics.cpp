@@ -50,6 +50,6 @@ void ThermometerStatistics::updateAllThermometers(void)
     for(it; it != array.end(); it++)
     {
         Thermometer &thermometer = *it;
-        dbg << "Temp " << thermometer.getThermometerName() << thermometer.getTemperature() << lf;
+        dbg << "Temp " << thermometer.getThermometerName() << thermometer.getTemperature();
     }
 }

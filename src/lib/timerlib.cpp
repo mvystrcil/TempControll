@@ -24,7 +24,7 @@ bool TimerLib::registerHandler(TimeoutCallback callback, int timeout)
   
   m_execution.join();
   
-  dbg << "Register callback to fire every " << timeout << lf;
+  dbg << "Register callback to fire every " << timeout;
 }
 
 bool TimerLib::stopExecution()
@@ -34,7 +34,7 @@ bool TimerLib::stopExecution()
 
 void TimerLib::timeout()
 {
-  dbg << "Thread started, sleep before emitting signal" << lf;
+  dbg << "Thread started, sleep before emitting signal";
   
   /*while(! m_stop)
   {
