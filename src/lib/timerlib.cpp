@@ -8,22 +8,20 @@ TimerLib::TimerLib()
 
 }
 
-/*void TimerLib::addHandler(std::function<void(void)> callback)
+int TimerLib::registerHandler(TimeoutCallback callback, int timeout)
 {
-	dbg << "Registered callback function " << lf;
-	dbg << "Call this func immediatelly" << lf;
-	callback();
-}*/
-
-bool TimerLib::registerHandler(TimeoutCallback callback, int timeout)
-{
-  m_callback = callback;
-  m_timeout = m_timeout;
-  m_stop = false;
-  m_execution = std::thread(&TimerLib::timeout, this);
+  Event event(callback, timeout);
+  int last_item = PROBLEM_WHILE_THREAD_CREATION;
+  
+  threads.push_back(event);
+  last_item = threads.size() - 1;
+  
+  std::thread m_execution(&Event::timeout, &event);
   m_execution.detach();
   
-  dbg << "Register callback to fire every " << timeout << lf;
+  dbg << "Register callback to fire every " << timeout << " in slot " << last_item;
+  
+  return last_item;
 }
 
 bool TimerLib::stopExecution()
@@ -31,18 +29,16 @@ bool TimerLib::stopExecution()
   return true;
 }
 
-void TimerLib::timeout()
+TimerLib::Event::Event(TimeoutCallback callback, int timeout): m_callback(callback), m_timeout(timeout)
 {
-  dbg << "Thread started, sleep before emitting signal" << lf;
-  std::this_thread::sleep_for(std::chrono::milliseconds(1500));
-  dbg << "Thread done" << lf;
   
-  /*while(! m_stop)
-  {
-    std::this_thread::sleep_for(m_timeout);
-    dbg << "Will sleep for some time " << lf;
-  }*/
 }
 
-
-
+void TimerLib::Event::timeout()
+{
+  while(! m_stop)
+  {
+    std::this_thread::sleep_for(std::chrono::milliseconds(m_timeout));
+    m_callback();
+  }
+}

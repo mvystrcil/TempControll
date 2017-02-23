@@ -6,6 +6,8 @@ class Supervision
 private:
   bool stop;
   
+  void initThermometers();
+  
 public:
   Supervision();
   virtual ~Supervision();  

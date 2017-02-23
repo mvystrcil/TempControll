@@ -35,7 +35,7 @@ bool ThermometersList::registerThermometer(const Thermometer &thermometer)
         }
     }
 
-    dbg << "Append thermometer " << thermometer.getThermometerName() << lf;
+    dbg << "Append thermometer " << thermometer.getThermometerName();
     this->meters.push_back(thermometer);
 
     return true;
