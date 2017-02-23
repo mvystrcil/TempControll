@@ -1,7 +1,5 @@
 #include "lib/logger.h"
-#include "thermometer/thermometerstatistics.h"
-#include "thermometer/thermometerslist.h"
-#include "thermometer/thermometerstatistics.h"
+
 #include "lib/supervision.h"
 #include "lib/timerlib.h"
 
@@ -15,17 +13,15 @@ int main(int argc, char* argv[])
   Logger::setReportingLevel(DEBUG);
   Logger::setLogToFile("temp.log");
   
-  ThermometerStatistics stats;
-  Thermometer th1("AA");
-  Thermometer th2("BB");
+  Supervision supervision;  
+  std::thread supervisionThread(&Supervision::init, &supervision);
   
-  dbg << "Starting program to collect all incoming data";
-  ThermometersList& list = ThermometersList::getInstance();
+  supervisionThread.join();
   
-  list.registerThermometer(th1);
-  list.registerThermometer(th2);
+  warn << "Exiting application";
   
-  stats.startStatsColl();
+  Logger::finishLogSession();
+ 
   return 0;	
 }
 #endif
