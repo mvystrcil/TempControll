@@ -28,7 +28,6 @@ static const char* const mapping[] = {"ERR", "WRN", "INFO", "DBG"};
 #define dbg \
   log(DEBUG)
   
-
 class Logger {
 
 private:

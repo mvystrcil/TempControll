@@ -2,9 +2,11 @@
 #include "thermometer/thermometerstatistics.h"
 #include "thermometer/thermometerslist.h"
 #include "thermometer/thermometerstatistics.h"
+#include "lib/supervision.h"
 #include "lib/timerlib.h"
 
 #include <string>
+#include <thread>
 
 #ifndef _UNIT_TESTS
 
