@@ -10,23 +10,23 @@
 enum LogLevel {ERROR, WARNING, INFO, DEBUG};
 static const char* const mapping[] = {"ERR", "WRN", "INFO", "DBG"};
 
-#define log(level) \
+#define log(level, file, line) \
   if(level > Logger::getReportingLevel()) \
     ; \
   else \
-    Logger().get(level)
+    Logger().get(level, file, line)
   
 #define err \
-  log(ERROR)
+  log(ERROR, __FILE__, __LINE__)
   
 #define warn \
-  log(WARNING)
+  log(WARNING, __FILE__, __LINE__)
   
 #define info \
-  log(INFO)
+  log(INFO, __FILE__, __LINE__)
   
 #define dbg \
-  log(DEBUG)
+  log(DEBUG, __FILE__, __LINE__)
   
 class Logger {
 
@@ -41,7 +41,7 @@ private:
 public:
   Logger();
   virtual ~Logger();
-  std::ostringstream& get(const LogLevel& level = INFO);
+  std::ostringstream& get(const LogLevel& level = INFO, const std::string& file = "", int line = 0);
   
   static LogLevel& getReportingLevel();
   static void setReportingLevel(const LogLevel& level = INFO);

@@ -61,9 +61,10 @@ void Logger::finishLogSession()
   }
 }
 
-std::ostringstream& Logger::get(const LogLevel& level)
+std::ostringstream& Logger::get(const LogLevel& level, const std::string& file, int line)
 {
-  str << "[" << Logger::toString(level) << "] ";
+  str << "[" << Logger::toString(level) << "]";
+  str << "[" << file << ":" << line << "] ";
   
   return str;
 }
