@@ -24,7 +24,7 @@ LDFLAGS := -L/usr/lib/ -lm -ldl -lcppunit -lpthread -g
 D_UNITS := -D_UNIT_TESTS
 
 CXX_11 := -std=c++11
-CPPFLAGS := $(INC_FLAGS) $(CXX_11) -I/usr/local/include -MMD -MP -g $(LD_FLAGS)
+CPPFLAGS := $(INC_FLAGS) $(CXX_11) $(shell pkg-config libxml++-2.6 --cflags --libs) -I/usr/local/include -MMD -MP -g $(LD_FLAGS)
 
 .PHONY: clean
 .PHONY: units
