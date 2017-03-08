@@ -20,11 +20,11 @@ UNITS_DEPS := $(UNITS_OBJS:.o=.d)
 
 INC_DIRS := $(shell find $(SRC_DIRS) -type d)
 INC_FLAGS := $(addprefix -I,$(INC_DIRS))
-LDFLAGS := -L/usr/lib/ -lm -ldl -lcppunit -lpthread -g
+LDFLAGS := -L/usr/lib/ -lm -ldl -lcppunit -lpthread -g $(shell pkg-config libxml++-2.6 --libs)
 D_UNITS := -D_UNIT_TESTS
 
 CXX_11 := -std=c++11
-CPPFLAGS := $(INC_FLAGS) $(CXX_11) $(shell pkg-config libxml++-2.6 --cflags --libs) -I/usr/local/include -MMD -MP -g $(LD_FLAGS)
+CPPFLAGS := $(INC_FLAGS) $(CXX_11) $(shell pkg-config libxml++-2.6 --cflags) -I/usr/local/include -MMD -MP -g $(LD_FLAGS)
 
 .PHONY: clean
 .PHONY: units
