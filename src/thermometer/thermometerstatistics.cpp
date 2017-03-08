@@ -21,10 +21,12 @@ bool ThermometerStatistics::setUpdateTimeout(const int updateTimeout)
 
 bool ThermometerStatistics::startStatsColl()
 {
-  TimeoutCallback callback = std::bind(
-    &ThermometerStatistics::updateAllThermometers, this);
+  dbg << "Register callback";
+  TimeoutCallback callback = std::bind(&ThermometerStatistics::updateAllThermometers, this);
+  dbg << "fin";
   
-  timer.registerHandler(callback, 200);
+  TimerLib timer = TimerLib(callback, 200);
+  timer.start();
   
   return true;
 }
@@ -42,6 +44,8 @@ bool ThermometerStatistics::stopStatsColl() const
 
 void ThermometerStatistics::updateAllThermometers(void)
 {
+  dbg << "##################";
+  
     ThermometersList& list = ThermometersList::getInstance();
     vector<Thermometer> array = list.getRegisteredList();
 

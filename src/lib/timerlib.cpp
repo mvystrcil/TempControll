@@ -3,42 +3,33 @@
 
 #include <chrono>
 
-TimerLib::TimerLib()
+TimerLib::TimerLib(TimeoutCallback callback, int timeout) : m_call(std::move(callback)), m_timeout(timeout)
 {
-
-}
-
-int TimerLib::registerHandler(TimeoutCallback callback, int timeout)
-{
-  Event event(callback, timeout);
-  int last_item = PROBLEM_WHILE_THREAD_CREATION;
-  
-  threads.push_back(event);
-  last_item = threads.size() - 1;
-  
-  std::thread m_execution(&Event::timeout, &event);
-  m_execution.detach();
-  
-  dbg << "Register callback to fire every " << timeout << " in slot " << last_item;
-  
-  return last_item;
+  m_stop = false;
 }
 
 bool TimerLib::stopExecution()
 {
+  m_stop = true;
   return true;
 }
 
-TimerLib::Event::Event(TimeoutCallback callback, int timeout): m_callback(callback), m_timeout(timeout)
+bool TimerLib::start()
 {
-  
+  m_execution = std::thread(&TimerLib::execute, this);
+  m_execution.detach();
 }
 
-void TimerLib::Event::timeout()
+
+void TimerLib::execute()
 {
-  while(! m_stop)
+  dbg << "Execute timer steps";
+  
+  std::this_thread::sleep_for(std::chrono::milliseconds(500));
+  m_call();
+  
+  /*while(! m_stop)
   {
-    std::this_thread::sleep_for(std::chrono::milliseconds(m_timeout));
-    m_callback();
-  }
+    
+  }*/
 }

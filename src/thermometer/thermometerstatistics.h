@@ -15,7 +15,7 @@ public:
 
 private:
     int updateTimeout;
-    TimerLib timer;
+    //TimerLib timer;
 
     void updateAllThermometers();
 };

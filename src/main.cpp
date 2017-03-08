@@ -16,6 +16,9 @@ int main(int argc, char* argv[])
   Supervision supervision;  
   std::thread supervisionThread(&Supervision::init, &supervision);
   
+  
+  dbg << "Main thread will join ";
+  
   supervisionThread.join();
   
   warn << "Exiting application";

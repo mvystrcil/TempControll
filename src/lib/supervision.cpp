@@ -1,8 +1,5 @@
 #include "supervision.h"
 #include "logger.h"
-#include "thermometer/thermometerstatistics.h"
-#include "thermometer/thermometerslist.h"
-#include "thermometer/thermometerstatistics.h"
 
 #include <thread>
 #include <iostream>
@@ -21,29 +18,28 @@ Supervision::~Supervision()
 void Supervision::init()
 {
   int i = 0;
-  std::cout << "Init" << std::endl;
+  dbg << "Init by thread ";
   
-  while(!stop && i < 50)
+  initThermometers();
+  
+  dbg << "Supervision thread will poll ";
+  
+  while(! stop)
   {
     std::this_thread::sleep_for(std::chrono::milliseconds(100));
-    i++;
-    dbg << "Wait for action";
   }
+  
+  warn << "Supervision thread stopped";
 }
 
 void Supervision::initThermometers()
 {
   dbg << "Create all instances for thermometers";
   
-  ThermometerStatistics stats;
-  Thermometer th1("AA");
-  Thermometer th2("BB");
-  
-  dbg << "Starting program to collect all incoming data";
-  ThermometersList& list = ThermometersList::getInstance();
-  
+  /*th1 = Thermometer("A");
+  th2 = Thermometer("B");
   list.registerThermometer(th1);
-  list.registerThermometer(th2);
+  list.registerThermometer(th2);*/
   
   stats.startStatsColl();
 }
