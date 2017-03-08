@@ -1,24 +1,20 @@
 #ifndef _H_SUPERVISION
 #define _H_SUPERVISION
 
-#include "thermometer/thermometerstatistics.h"
-#include "thermometer/thermometerstatistics.h"
-#include "thermometer/thermometerslist.h"
+#include "configuration/configuration.h"
 
 class Supervision
 {
 private:
   bool stop;
-  void initThermometers();
+  std::string m_conf;
   
-  ThermometerStatistics stats;
-  /*Thermometer th1;
-  Thermometer th2;*/
-  ThermometersList& list = ThermometersList::getInstance();
-  
+  bool loadConfiguration();
 public:
   Supervision();
-  virtual ~Supervision();  
+  virtual ~Supervision();
+  
+  void setConfigurationFile(const std::string& conf);
   
   void init();
 };

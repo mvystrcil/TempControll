@@ -6,7 +6,6 @@
 
 Supervision::Supervision()
 {
-  dbg << "Prepare supervision object";
   stop = false;
 }
 
@@ -17,31 +16,19 @@ Supervision::~Supervision()
 
 void Supervision::init()
 {
-  int i = 0;
-  dbg << "Init by thread ";
-  
-  initThermometers();
-  
-  dbg << "Supervision thread will poll ";
-  
-  while(! stop)
-  {
-    std::this_thread::sleep_for(std::chrono::milliseconds(100));
-  }
-  
-  warn << "Supervision thread stopped";
+  this->loadConfiguration();
 }
 
-void Supervision::initThermometers()
+bool Supervision::loadConfiguration()
 {
-  dbg << "Create all instances for thermometers";
+  Configuration conf(m_conf);
   
-  /*th1 = Thermometer("A");
-  th2 = Thermometer("B");
-  list.registerThermometer(th1);
-  list.registerThermometer(th2);*/
-  
-  stats.startStatsColl();
+  conf.loadConfiguration();
+}
+
+void Supervision::setConfigurationFile(const std::string& conf)
+{
+  m_conf = conf;
 }
 
 
