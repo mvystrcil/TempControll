@@ -14,7 +14,7 @@ int main(int argc, char* argv[])
   Logger::setLogToFile("temp.log");
   
   Supervision supervision;  
-  supervision.setConfigurationFile(".");
+  supervision.setConfigurationFile("/home/martin/Development/tempcontroller/conf/init.xml");
   std::thread supervisionThread(&Supervision::init, &supervision);
   
   supervisionThread.join();

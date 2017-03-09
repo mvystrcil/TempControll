@@ -1,6 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<thermometers>
-	<thermometer name="Kuchyně">
-		
-	</thermometer>
-</thermometers>
+<TemperatureController>
+	<thermometers>
+		<thermometer id="0" name="Kuchyne">
+			<address>0x25</address>
+			<min>-30</min>
+			<max>140</max>
+			<period>60</period>
+		</thermometer>
+	</thermometers>
+</TemperatureController>

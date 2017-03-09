@@ -16,14 +16,21 @@ Supervision::~Supervision()
 
 void Supervision::init()
 {
-  this->loadConfiguration();
+  if(! this->loadConfiguration())
+  {
+    return;
+  }
 }
 
 bool Supervision::loadConfiguration()
 {
   Configuration conf(m_conf);
   
-  conf.loadConfiguration();
+  if(! conf.loadConfiguration())
+  {
+    err << "Configuration load failed";
+    return false;
+  }
 }
 
 void Supervision::setConfigurationFile(const std::string& conf)
