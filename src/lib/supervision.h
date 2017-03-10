@@ -9,9 +9,11 @@ class Supervision
 private:
   bool stop;
   std::string m_conf;
+  const int SUPERVISE_PERIOD_CHECK_MS = 100;
   ThermometerStatistics statistics;
   
   bool loadConfiguration();
+  bool supervise();
 public:
   Supervision();
   virtual ~Supervision();
