@@ -1,5 +1,6 @@
 #include "configuration.h"
 #include "../lib/logger.h"
+#include "../thermometer/thermometerslist.h"
 
 Configuration::Configuration(const std::string& confFile) : m_confFile(confFile)
 {
@@ -11,30 +12,80 @@ Configuration::~Configuration()
 
 }
 
-bool Configuration::loadThermometers(xmlpp::Node *node)
+bool Configuration::loadThermometers(xmlpp::Node *node, ThermometerStatistics& statistics)
 {
   xmlpp::Node *child;
   xmlpp::Element *element;
+  xmlpp::ContentNode *content;
+  xmlpp::TextNode *text;
+  
+  Thermometer *thermometer;
+  ThermometersList list = ThermometersList::getInstance();
   
   dbg << "Thermometers node: " << node->get_name();
   child = node->get_first_child();
   
   while(child)
   {
+    element = dynamic_cast<xmlpp::Element *>(child);
+    
     if(child->get_name().compare(XML_TAG_THERMOMETER) == 0)
     {
-      element = dynamic_cast<xmlpp::Element *>(child);
-      dbg << "Elem " << child->get_name() << " id: " 
-	<< element->get_attribute("id")->get_value()
-	<< " name: "
-	<< element->get_attribute("name")->get_value();
+      // Get attributes of thermometer
+      thermometer = new Thermometer(element->get_attribute_value("name"),
+				    element->get_attribute_value("address"));
+      
+      // Read also settings of this thermometer
+      this->loadThermometerSettings(child, thermometer);
+      
+      // Register thermometer to the list of known
+      list.registerThermometer(thermometer);
+    }
+    else if (child->get_name().compare(XML_TAG_THERMOMETERS_PERIOD) == 0)
+    {
+      dbg << "Update timeout: " << element->get_child_text()->get_content();
+      statistics.setUpdateTimeout(5);
     }
     
     child = child->get_next_sibling();
   }
 }
 
-bool Configuration::loadConfiguration()
+bool Configuration::loadThermometerSettings(xmlpp::Node* node, Thermometer *thermometer)
+{
+  xmlpp::Node *child;
+  xmlpp::Element *element;
+  double minTemp;
+  double maxTemp;
+  std::string address;
+  
+  child = node->get_first_child();
+  
+  while(child)
+  {
+    element = dynamic_cast<xmlpp::Element *>(child);
+    
+    if(child->get_name().compare(XML_TAG_THERMOMETER_ADDRESS) == 0)
+    {
+      address = element->get_child_text()->get_content();
+    }
+    else if(child->get_name().compare(XML_TAG_THERMOMETER_MIN_TEMP) == 0)
+    {
+      minTemp = atof(element->get_child_text()->get_content().c_str());
+    }
+    else if(child->get_name().compare(XML_TAG_THERMOMETER_MAX_TEMP) == 0)
+    {
+      maxTemp = atof(element->get_child_text()->get_content().c_str());
+    }
+    
+    child = child->get_next_sibling();
+  }
+  
+  thermometer->setAddress(address);
+  thermometer->setMinMaxTemp(minTemp, maxTemp);
+}
+
+bool Configuration::loadConfiguration(ThermometerStatistics& statistics)
 {
   xmlpp::DomParser parser;
   xmlpp::Node *pChildNode;
@@ -66,7 +117,7 @@ bool Configuration::loadConfiguration()
       
       if(pChildNode->get_name().compare(XML_TAG_THERMOMETERS) == 0)
       {
-	this->loadThermometers(pChildNode);
+	this->loadThermometers(pChildNode, statistics);
       }
       
       pChildNode = pChildNode->get_next_sibling();
@@ -82,3 +133,4 @@ bool Configuration::loadConfiguration()
   
   return true;
 }
+
