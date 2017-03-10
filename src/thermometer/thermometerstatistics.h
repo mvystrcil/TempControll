@@ -9,7 +9,8 @@ public:
     ThermometerStatistics(int updateTimeout=30);
 
     int getUpdateTimeout() const;
-    bool setUpdateTimeout(const int updateTimeout);
+    bool setUpdateTimeout(const int timeout);
+    
     bool startStatsColl();
     bool stopStatsColl() const;
 

@@ -26,7 +26,7 @@ bool Supervision::loadConfiguration()
 {
   Configuration conf(m_conf);
   
-  if(! conf.loadConfiguration())
+  if(! conf.loadConfiguration(statistics))
   {
     err << "Configuration load failed";
     return false;

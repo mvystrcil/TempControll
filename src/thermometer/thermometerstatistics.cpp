@@ -13,10 +13,17 @@ int ThermometerStatistics::getUpdateTimeout() const
     return this->updateTimeout;
 }
 
-bool ThermometerStatistics::setUpdateTimeout(const int updateTimeout)
+bool ThermometerStatistics::setUpdateTimeout(const int timeout)
 {
-    this->updateTimeout = updateTimeout;
-    return true;
+  if(timeout <= 0)
+  {
+    warn << "Trying to set timeout <= 0: " << timeout << " not possible";
+    warn << "Will use previous value: " << this->updateTimeout;
+    return false;
+  } 
+  
+  this->updateTimeout = timeout;
+  return true;
 }
 
 bool ThermometerStatistics::startStatsColl()
