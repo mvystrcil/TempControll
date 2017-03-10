@@ -10,15 +10,16 @@ public:
     static ThermometersList& getInstance();
     static void resetInstance();
 
-    bool registerThermometer(const Thermometer &thermometer);
-    bool unregisterThermometer(const Thermometer &thermometer);
-    vector<Thermometer> getRegisteredList() const;
+    bool registerThermometer(Thermometer* thermometer);
+    bool unregisterThermometer(const Thermometer *thermometer);
+    vector<Thermometer *> getRegisteredList() const;
+    
+    virtual ~ThermometersList();
 
 private:
-    vector<Thermometer> meters;
+    vector<Thermometer *> meters;
 
     ThermometersList();
-    ~ThermometersList();
 };
 
 #endif // THERMOMETERSLIST_H
