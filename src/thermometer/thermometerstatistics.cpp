@@ -47,13 +47,13 @@ void ThermometerStatistics::updateAllThermometers(void)
   dbg << "##################";
   
     ThermometersList& list = ThermometersList::getInstance();
-    vector<Thermometer> array = list.getRegisteredList();
+    vector<Thermometer *> array = list.getRegisteredList();
 
-    vector<Thermometer>::iterator it = array.begin();
+    vector<Thermometer *>::iterator it = array.begin();
 
     for(it; it != array.end(); it++)
     {
-        Thermometer &thermometer = *it;
-        dbg << "Temp " << thermometer.getThermometerName() << thermometer.getTemperature();
+        Thermometer *thermometer = *it;
+        dbg << "Temp " << thermometer->getThermometerName() << thermometer->getTemperature();
     }
 }

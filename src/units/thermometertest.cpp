@@ -50,14 +50,14 @@ void ThermometerTest::registerThermometers()
     // Compare if these two instanaces are the same
     //CPPUNIT_ASSERT(list == list2);
 
-    CPPUNIT_ASSERT(list.registerThermometer(*thermometerA) == true);
-    CPPUNIT_ASSERT(list.registerThermometer(*thermometerB) == true);
-    CPPUNIT_ASSERT(list.registerThermometer(*thermometerA) == false);
+    CPPUNIT_ASSERT(list.registerThermometer(thermometerA) == true);
+    CPPUNIT_ASSERT(list.registerThermometer(thermometerB) == true);
+    CPPUNIT_ASSERT(list.registerThermometer(thermometerA) == false);
 
-    CPPUNIT_ASSERT(list.unregisterThermometer(test) == false);
-    CPPUNIT_ASSERT(list.unregisterThermometer(*thermometerA) == true);
-    CPPUNIT_ASSERT(list.unregisterThermometer(*thermometerA) == false);
-    CPPUNIT_ASSERT(list.unregisterThermometer(*thermometerB) == true);
-    CPPUNIT_ASSERT(list.unregisterThermometer(*thermometerB) == false);
-    CPPUNIT_ASSERT(list.unregisterThermometer(test) == false);
+    CPPUNIT_ASSERT(list.unregisterThermometer(&test) == false);
+    CPPUNIT_ASSERT(list.unregisterThermometer(thermometerA) == true);
+    CPPUNIT_ASSERT(list.unregisterThermometer(thermometerA) == false);
+    CPPUNIT_ASSERT(list.unregisterThermometer(thermometerB) == true);
+    CPPUNIT_ASSERT(list.unregisterThermometer(thermometerB) == false);
+    CPPUNIT_ASSERT(list.unregisterThermometer(&test) == false);
 }
