@@ -34,6 +34,7 @@ public:
   bool updateTemperature(const int temperature);
   
   bool setMinMaxTemp(const double min, const double max);
+  bool setAddress(const std::string &address);
 
   // Overload == operator to compare two instances
   bool operator==(const Thermometer &other) const;

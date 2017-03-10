@@ -43,6 +43,11 @@ bool Thermometer::setMinMaxTemp(const double min, const double max)
   this->maxTemp = max;
 }
 
+bool Thermometer::setAddress(const string& address)
+{
+  this->address = address;
+}
+
 bool Thermometer::operator ==(const Thermometer& other) const
 {
     if(this->getThermometerName().compare(other.getThermometerName()) == 0)
