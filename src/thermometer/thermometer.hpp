@@ -26,21 +26,25 @@ public:
     	by const pointer if it is an optional argument that can be zero (i.e. "NULL")
     	by pointer if it is an optional argument that can be zero but will be owned (i.e. deallocated) by constructed class.
 	 * */
-	Thermometer(const string &name);
-	~Thermometer();
+  Thermometer(const string &name, const std::string &address="");
+  virtual ~Thermometer();
 
-	string getThermometerName() const;
+  string getThermometerName() const;
+  int getTemperature() const;
+  bool updateTemperature(const int temperature);
+  
+  bool setMinMaxTemp(const double min, const double max);
 
-    int getTemperature() const;
-    bool updateTemperature(const int temperature);
-
-    // Overload == operator to compare two instances
-    bool operator==(const Thermometer &other) const;
+  // Overload == operator to compare two instances
+  bool operator==(const Thermometer &other) const;
 
 private:
-	string name;
-	int temperature;
-    int updatePeriod;
+  string name;
+  string address;
+  int temperature;
+  double minTemp;
+  double maxTemp;
+  int updatePeriod;
 
 };
 
