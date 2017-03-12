@@ -96,7 +96,7 @@ bool Configuration::loadConfiguration(ThermometerStatistics& statistics)
   
     if(! parser)
     {
-      err << "Cannot parse conf file " << m_confFile;
+      errn << "Cannot parse conf file " << m_confFile;
       return false;
     }
     
@@ -126,8 +126,8 @@ bool Configuration::loadConfiguration(ThermometerStatistics& statistics)
   } 
   catch (const std::exception& ex)
   {
-    err << "Exception while loading configuration from file " << m_confFile;
-    err << "Exception: " << ex.what();
+    errn << "Exception while loading configuration from file " << m_confFile;
+    errn << "Exception: " << ex.what();
     return false;
   }
   

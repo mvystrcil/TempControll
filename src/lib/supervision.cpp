@@ -29,7 +29,7 @@ bool Supervision::loadConfiguration()
   
   if(! conf.loadConfiguration(statistics))
   {
-    err << "Configuration load failed";
+    errn << "Configuration load failed";
     return false;
   }
   
@@ -74,7 +74,7 @@ bool Supervision::supervise()
   }
   else
   {
-    err << "Some other type of stop, most probably failed";
+    errn << "Some other type of stop, most probably failed";
     return false;
   }
 }

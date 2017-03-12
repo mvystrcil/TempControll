@@ -16,7 +16,7 @@ static const char* const mapping[] = {"ERR", "WRN", "INFO", "DBG"};
   else \
     Logger().get(level, file, line)
   
-#define err \
+#define errn \
   log(ERROR, __FILE__, __LINE__)
   
 #define warn \
