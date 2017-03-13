@@ -44,7 +44,7 @@ bool Configuration::loadThermometers(xmlpp::Node *node, ThermometerStatistics& s
     else if (child->get_name().compare(XML_TAG_THERMOMETERS_PERIOD) == 0)
     {
       dbg << "Update timeout: " << element->get_child_text()->get_content();
-      statistics.setUpdateTimeout(5);
+      statistics.setUpdateTimeout(atoi(element->get_child_text()->get_content().c_str()));
     }
     
     child = child->get_next_sibling();

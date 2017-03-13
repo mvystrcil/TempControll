@@ -54,7 +54,8 @@ bool Supervision::startInThread(const Callback& callback)
 
 bool Supervision::supervise()
 {
-  info << "Configuration loaded from file: " << m_conf << " go to supervise state";
+  info << "Configuration loaded from file: " << m_conf;
+  info << "Go to supervise state";
   
   while(!stop)
   {
