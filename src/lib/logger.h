@@ -7,8 +7,7 @@
 #include <fstream>
 #include <sstream>
 
-enum LogLevel {ERROR, WARNING, INFO, DEBUG};
-static const char* const mapping[] = {"ERR", "WRN", "INFO", "DBG"};
+#include "../consts/loglevels.h"
 
 #define log(level, file, line) \
   if(level > Logger::getReportingLevel()) \
