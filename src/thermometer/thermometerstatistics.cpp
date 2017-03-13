@@ -40,6 +40,7 @@ bool ThermometerStatistics::startStatsColl()
 
 bool ThermometerStatistics::stopStatsColl() const
 {
+  timer->stopExecution();
   return true;
 }
 
@@ -50,17 +51,14 @@ bool ThermometerStatistics::stopStatsColl() const
 */
 
 void ThermometerStatistics::updateAllThermometers(void)
-{
-  dbg << "##################";
+{  
+  ThermometersList& list = ThermometersList::getInstance();
+  vector<Thermometer *> array = list.getRegisteredList();
+  vector<Thermometer *>::iterator it = array.begin();
   
-    ThermometersList& list = ThermometersList::getInstance();
-    vector<Thermometer *> array = list.getRegisteredList();
-
-    vector<Thermometer *>::iterator it = array.begin();
-
-    for(it; it != array.end(); it++)
-    {
-        Thermometer *thermometer = *it;
-        dbg << "Temp " << thermometer->getThermometerName() << thermometer->getTemperature();
-    }
+  for(it; it != array.end(); it++)
+  {
+    Thermometer *thermometer = *it;
+    dbg << "Temp " << thermometer->getThermometerName() << "\t" << thermometer->getTemperature();
+  }
 }

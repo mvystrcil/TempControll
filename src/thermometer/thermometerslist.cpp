@@ -1,6 +1,8 @@
 #include "thermometerslist.h"
 #include "../lib/logger.h"
 
+std::vector<Thermometer *> ThermometersList::meters;
+
 ThermometersList::ThermometersList()
 {
   
@@ -50,6 +52,7 @@ bool ThermometersList::unregisterThermometer(const Thermometer* thermometer)
     Thermometer *th = *it;
     if(th == thermometer)
     {
+      info << "Erase thermometer " << th->getThermometerName();
       this->meters.erase(it);
       return true;
     }

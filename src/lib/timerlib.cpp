@@ -23,13 +23,15 @@ bool TimerLib::start()
 }
 
 
+/**
+ * The first action is emitted immediatelly, then wait
+ * specified time and emit next action
+ */
 void TimerLib::execute()
-{
-  dbg << "Execute timer steps";
-  
+{  
   while(! m_stop)
   {
-    std::this_thread::sleep_for(std::chrono::milliseconds(m_timeout * 100));
     m_call();
+    std::this_thread::sleep_for(std::chrono::milliseconds(m_timeout * 1000));
   }
 }

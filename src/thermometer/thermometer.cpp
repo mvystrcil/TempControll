@@ -20,7 +20,7 @@ string Thermometer::getThermometerName() const
 
 int Thermometer::getTemperature() const
 {
-	return this->temperature;
+  return this->temperature;
 }
 
 bool Thermometer::updateTemperature(const int temperature)

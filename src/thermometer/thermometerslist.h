@@ -17,7 +17,7 @@ public:
     virtual ~ThermometersList();
 
 private:
-    vector<Thermometer *> meters;
+    static vector<Thermometer *> meters;
 
     ThermometersList();
 };
