@@ -14,12 +14,13 @@ private:
   std::string m_conf;
   const int SUPERVISE_PERIOD_CHECK_MS = 100;
   std::vector<std::thread *> startedThreads;
-  std::vector<Callback> queue;
+  static std::vector<Callback> queue;
   ThermometerStatistics statistics;
   
   bool loadConfiguration();
   bool supervise();
-  bool startInThread(const Callback &callback);
+  bool startInThread(const Callback& callback);
+  void execute(const Callback& callback);
   
 public:
   Supervision();
@@ -27,7 +28,7 @@ public:
   
   void setConfigurationFile(const std::string& conf);
   void init();
-  bool enqueueNewThread(const Callback &callback);
+  static bool enqueueNewThread(const Callback &callback);
 };
 
 #endif

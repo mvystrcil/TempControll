@@ -1,5 +1,6 @@
 #include "timerlib.h"
 #include "../lib/logger.h"
+#include "../lib/supervision.h"
 
 #include <chrono>
 
@@ -16,8 +17,9 @@ bool TimerLib::stopExecution()
 
 bool TimerLib::start()
 {
-  m_execution = std::thread(&TimerLib::execute, this);
-  m_execution.detach();
+  // make a connection between this object and new thread
+  Callback timer = std::bind(&TimerLib::execute, this);
+  Supervision::enqueueNewThread(timer);
 }
 
 
@@ -25,11 +27,9 @@ void TimerLib::execute()
 {
   dbg << "Execute timer steps";
   
-  std::this_thread::sleep_for(std::chrono::milliseconds(500));
-  m_call();
-  
-  /*while(! m_stop)
+  while(! m_stop)
   {
-    
-  }*/
+    std::this_thread::sleep_for(std::chrono::milliseconds(m_timeout * 100));
+    m_call();
+  }
 }

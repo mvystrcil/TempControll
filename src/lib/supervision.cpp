@@ -5,6 +5,8 @@
 #include <chrono>
 #include <iostream>
 
+std::vector<Callback> Supervision::queue;
+
 Supervision::Supervision()
 {
   stop = false;
@@ -49,6 +51,10 @@ bool Supervision::enqueueNewThread(const Callback &callback)
 
 bool Supervision::startInThread(const Callback& callback)
 {
+  std::thread th = std::thread(&Supervision::execute, this, callback);
+  th.detach();
+  
+  startedThreads.push_back(&th);
   dbg << "Starting new thread";
 }
 
@@ -56,6 +62,10 @@ bool Supervision::supervise()
 {
   info << "Configuration loaded from file: " << m_conf;
   info << "Go to supervise state";
+  
+  // Start collecting statistics 
+  // 	will create some new threads etc
+  statistics.startStatsColl();
   
   while(!stop)
   {
@@ -81,5 +91,11 @@ bool Supervision::supervise()
 }
 
 
+void Supervision::execute(const Callback& callback)
+{
+  // just execute callback of the new thread
+  // does not support any parameter passing
+  callback();
+}
 
 

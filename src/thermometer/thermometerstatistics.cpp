@@ -32,8 +32,8 @@ bool ThermometerStatistics::startStatsColl()
   TimeoutCallback callback = std::bind(&ThermometerStatistics::updateAllThermometers, this);
   dbg << "fin";
   
-  TimerLib timer = TimerLib(callback, this->getUpdateTimeout());
-  timer.start();
+  timer = new TimerLib(callback, this->getUpdateTimeout());
+  timer->start();
   
   return true;
 }
