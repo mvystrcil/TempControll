@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <TemperatureController>
 	<thermometers>
-		<update-period>60</update-period>
+		<update-period>10</update-period>
 		<thermometer id="0" name="Kuchyne">
 			<address>0x25</address>
 			<minTemp>-30</minTemp>
 			<maxTemp>140</maxTemp>
 		</thermometer>
 		<thermometer id="1" name="Koupelna">
-			<address>0x25</address>
+			<address>0x28</address>
 			<minTemp>-25</minTemp>
 			<maxTemp>145</maxTemp>
 		</thermometer>
