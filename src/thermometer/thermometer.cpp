@@ -1,5 +1,6 @@
 #include "thermometer.hpp"
 #include "../lib/logger.h"
+#include "../consts/timeouts.h"
 
 Thermometer::Thermometer(const string &name, const std::string &address)
 {
@@ -18,8 +19,19 @@ string Thermometer::getThermometerName() const
     return this->name;
 }
 
-int Thermometer::getTemperature() const
+int Thermometer::getTemperature()
 {
+  std::chrono::steady_clock::time_point act = std::chrono::steady_clock::now();
+  int delay = (std::chrono::duration_cast<std::chrono::seconds>(act - lastUpdate)).count();
+    
+  // This is here to protect thermometers from overloading
+  // If last value is younger than THERMOMETER_READ_TEMPERATURE_MIN_PAUSE,
+  // use the cached one
+  if(delay > THERMOMETER_READ_TEMPERATURE_MIN_PAUSE)
+  {
+    this->readTemperature();
+  }
+  
   return this->temperature;
 }
 
@@ -56,4 +68,10 @@ bool Thermometer::operator ==(const Thermometer& other) const
     }
 
     return false;
+}
+
+const double Thermometer::readTemperature()
+{
+  lastUpdate = std::chrono::steady_clock::now();
+  return 24.3;
 }

@@ -10,6 +10,7 @@
 
 #include <iostream>
 #include <string>
+#include <chrono>
 
 #include "ithermometer.hpp"
 
@@ -30,7 +31,7 @@ public:
   virtual ~Thermometer();
 
   string getThermometerName() const;
-  int getTemperature() const;
+  int getTemperature();
   bool updateTemperature(const int temperature);
   
   bool setMinMaxTemp(const double min, const double max);
@@ -46,6 +47,9 @@ private:
   double minTemp;
   double maxTemp;
   int updatePeriod;
+  std::chrono::steady_clock::time_point lastUpdate;
+  
+  const double readTemperature();
 
 };
 

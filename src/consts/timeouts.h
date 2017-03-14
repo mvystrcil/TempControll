@@ -1,0 +1,6 @@
+#ifndef _H_TIMEOUTS
+#define _H_TIMEOUTS
+
+const int THERMOMETER_READ_TEMPERATURE_MIN_PAUSE = 5;
+
+#endif
