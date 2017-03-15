@@ -10,7 +10,8 @@ typedef std::function<void (void)> Callback;
 class Supervision
 {
 private:
-  bool stop;
+  bool m_stop;
+  std::string m_stopReason;
   std::string m_conf;
   const int SUPERVISE_PERIOD_CHECK_MS = 100;
   std::vector<std::thread *> startedThreads;
@@ -28,6 +29,7 @@ public:
   
   void setConfigurationFile(const std::string& conf);
   void init();
+  void stop(const std::string &verbose);
   static bool enqueueNewThread(const Callback &callback);
 };
 

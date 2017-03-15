@@ -9,7 +9,7 @@ std::vector<Callback> Supervision::queue;
 
 Supervision::Supervision()
 {
-  stop = false;
+  m_stop = false;
 }
 
 Supervision::~Supervision()
@@ -58,6 +58,12 @@ bool Supervision::startInThread(const Callback& callback)
   dbg << "Starting new thread";
 }
 
+void Supervision::stop(const string& verbose)
+{
+  this->m_stopReason = verbose;
+  this->m_stop = true;
+}
+
 bool Supervision::supervise()
 {
   info << "Configuration loaded from file: " << m_conf;
@@ -67,7 +73,7 @@ bool Supervision::supervise()
   // 	will create some new threads etc
   statistics.startStatsColl();
   
-  while(!stop)
+  while(!m_stop)
   {
     std::this_thread::sleep_for(std::chrono::milliseconds(SUPERVISE_PERIOD_CHECK_MS));
     
@@ -78,9 +84,10 @@ bool Supervision::supervise()
     }
   }
   
-  if(stop)
+  if(m_stop)
   {
     info << "Intentional stop, bye";
+    info << "Stop reason: " <<  this->m_stopReason;
     return true; 
   }
   else

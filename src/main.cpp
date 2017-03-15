@@ -8,12 +8,14 @@
 #include <string>
 #include <thread>
 #include <unistd.h>
+#include <signal.h>
 
 #ifndef _UNIT_TESTS
 
 static std::string configurationFile = "";
 static std::string debugFile = "temp.log";
 static LogLevel debugLevel;
+static Supervision supervision;
 
 bool checkMandatoryParameters()
 {
@@ -77,8 +79,31 @@ bool parseInputArgs(int argc, char *argv[])
   return checkMandatoryParameters();
 }
 
+
+void handleSignals(int signal)
+{
+  std::string reason = "Received signal ";
+  reason.append(std::to_string(signal));
+  
+  supervision.stop(reason);
+}
+
+bool registerSignals()
+{
+  struct sigaction handler;
+  handler.sa_handler = handleSignals;
+  sigemptyset(&(handler.sa_mask));
+  handler.sa_flags = 0;
+  
+  sigaction(SIGINT, &handler, nullptr);
+  
+  return true;
+}
+
 int main(int argc, char* argv[])
 {
+  registerSignals();
+  
   // This has to be the first command
   Logger::setReportingLevel(DEBUG);
   
@@ -93,7 +118,6 @@ int main(int argc, char* argv[])
   Logger::setReportingLevel(debugLevel);
   Logger::setLogToFile(debugFile);
   
-  Supervision supervision;  
   supervision.setConfigurationFile(configurationFile);
   std::thread supervisionThread(&Supervision::init, &supervision);
   
