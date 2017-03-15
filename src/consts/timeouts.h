@@ -3,4 +3,6 @@
 
 const int THERMOMETER_READ_TEMPERATURE_MIN_PAUSE = 5;
 
+const int TIMERLIB_TIMEOUT_STEPS_MS = 100;
+
 #endif

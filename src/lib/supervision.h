@@ -23,6 +23,9 @@ private:
   bool startInThread(const Callback& callback);
   void execute(const Callback& callback);
   
+  void waitForThreads();
+  void dumpRunningThreadsInfo();
+  
 public:
   Supervision();
   virtual ~Supervision();

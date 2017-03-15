@@ -14,9 +14,11 @@ private:
   int m_timeout;
   bool m_stop;
   void execute();
+  void sleep(int milliseconds);
   
 public:
   TimerLib(TimeoutCallback callback, int timeout);
+  virtual ~TimerLib();
   
   static const int PROBLEM_WHILE_THREAD_CREATION = -1;
   TimeoutCallback m_call;

@@ -7,6 +7,7 @@ class ThermometerStatistics
 {
 public:
     ThermometerStatistics(int updateTimeout=30);
+    virtual ~ThermometerStatistics();
 
     int getUpdateTimeout() const;
     bool setUpdateTimeout(const int timeout);
@@ -16,7 +17,7 @@ public:
 
 private:
     int updateTimeout;
-    TimerLib *timer;
+    TimerLib *timer = nullptr;
 
     void updateAllThermometers();
 };

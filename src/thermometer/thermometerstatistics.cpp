@@ -8,6 +8,16 @@ ThermometerStatistics::ThermometerStatistics(int updateTimeout) : updateTimeout(
 {
 }
 
+ThermometerStatistics::~ThermometerStatistics()
+{
+  if(timer)
+  {
+    timer->stopExecution();
+    delete(timer);
+    timer = nullptr;
+  }
+}
+
 int ThermometerStatistics::getUpdateTimeout() const
 {
     return this->updateTimeout;
