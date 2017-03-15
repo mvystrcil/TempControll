@@ -22,12 +22,12 @@ void ThermometerTest::tearDown()
 
 void ThermometerTest::createThermometerObjects()
 {
-	CPPUNIT_ASSERT(thermometerA != NULL);
-	CPPUNIT_ASSERT(thermometerB != NULL);
+  CPPUNIT_ASSERT(thermometerA != NULL);
+  CPPUNIT_ASSERT(thermometerB != NULL);
 
-    CPPUNIT_ASSERT((thermometerA == thermometerB) == false);
-    CPPUNIT_ASSERT((thermometerA == thermometerA) == true);
-    CPPUNIT_ASSERT((thermometerB == thermometerB) == true);
+  CPPUNIT_ASSERT((thermometerA == thermometerB) == false);
+  CPPUNIT_ASSERT((thermometerA == thermometerA) == true);
+  CPPUNIT_ASSERT((thermometerB == thermometerB) == true);
 }
 
 void ThermometerTest::checkThermometerObjects()

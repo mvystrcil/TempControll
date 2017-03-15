@@ -2,6 +2,7 @@
 #include <cppunit/ui/text/TestRunner.h>
  
 #include "thermometertest.h"
+#include "timerlibtest.h"
 #include "../lib/logger.h"
  
 int main() {
@@ -12,6 +13,7 @@ int main() {
   
   dbg << "Unit tests started";
   runner.addTest(ThermometerTest::suite());
+  runner.addTest(TimerLibTest::suite());
   dbg << "Running the unit tests.";
   runner.run();
   
