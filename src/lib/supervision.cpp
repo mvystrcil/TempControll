@@ -28,12 +28,19 @@ void Supervision::init()
 
 bool Supervision::loadConfiguration()
 {
-  Configuration conf(m_conf);
-  
-  if(! conf.loadConfiguration(statistics))
+  if(m_conf.compare("") != 0)
+  { 
+    Configuration conf(m_conf);
+    
+    if(! conf.loadConfiguration(statistics))
+    {
+      errn << "Configuration load failed " << m_conf;
+      return false;
+    }
+  }
+  else
   {
-    errn << "Configuration load failed";
-    return false;
+    info << "Configuration is empty, please consider it";
   }
   
   return this->supervise();

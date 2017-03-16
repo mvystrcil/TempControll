@@ -1,5 +1,6 @@
 #include "timerlibtest.h"
 #include "../lib/logger.h"
+#include "../lib/supervision.h"
 
 #include <functional>
 #include <thread>
@@ -12,7 +13,7 @@ void TimerLibTest::setUp()
 
 void TimerLibTest::tearDown()
 {
-  
+  supervision->stop("Unit testing");
 }
 
 void TimerLibTest::createTimerObject()
@@ -21,6 +22,7 @@ void TimerLibTest::createTimerObject()
   TimeoutCallback callback = std::bind(&TimerLibTest::timeout, this);
   timer = new TimerLib(callback, TEST_SHORT_TIMEOUT);
   timer->start();
+  supervision->init();
   
   while(!callback && ! loops )
   {
