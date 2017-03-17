@@ -31,8 +31,6 @@ bool TimerLib::start()
 /**
  * The first action is emitted immediatelly, then wait
  * specified time and emit next action
- * 
- * TODO: Make automated tests - unit tests
  */
 void TimerLib::execute()
 {  
