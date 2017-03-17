@@ -82,15 +82,17 @@ bool Supervision::supervise()
   statistics.startStatsColl();
   
   while(!m_stop)
-  {
-    std::this_thread::sleep_for(std::chrono::milliseconds(SUPERVISE_PERIOD_CHECK_MS));
-    
+  {    
     while(! queue.empty())
     {
       this->startInThread(queue.back());
       queue.pop_back();
     }
+    
+    std::this_thread::sleep_for(std::chrono::milliseconds(SUPERVISE_PERIOD_CHECK_MS));
   }
+  
+  warn << "Exiting application - will try to stop";
   
   statistics.stopStatsColl();
   this->waitForThreads();

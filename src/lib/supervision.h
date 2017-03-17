@@ -13,7 +13,7 @@ private:
   bool m_stop;
   std::string m_stopReason;
   std::string m_conf;
-  const int SUPERVISE_PERIOD_CHECK_MS = 100;
+  const int SUPERVISE_PERIOD_CHECK_MS = 10;
   std::vector<std::thread *> startedThreads;
   static std::vector<Callback> queue;
   ThermometerStatistics statistics;
