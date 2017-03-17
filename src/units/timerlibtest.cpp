@@ -59,9 +59,10 @@ void TimerLibTest::testTimeout(const int m_timeout)
     loops--;
   }
   timeDiff = (TIMEOUT_LOOP(m_timeout) - loops) * TIMER_TEST_WATCHDOG_MS;
+  dbg << "TimeDiff: " << timeDiff << " timeout: " << m_timeout;
   reason.append("Unit test finished");
   
-  if((timeDiff - m_timeout) > 2 * TIMER_TEST_WATCHDOG_MS)
+  if(timeDiff > 2 * TIMER_TEST_WATCHDOG_MS)
   {
     reason.append(" loops: ");
     reason.append(std::to_string(loops));
