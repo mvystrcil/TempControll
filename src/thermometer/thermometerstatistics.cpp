@@ -54,8 +54,6 @@ bool ThermometerStatistics::stopStatsColl() const
   return true;
 }
 
-
-
 /*
  * Private functions implementation
 */

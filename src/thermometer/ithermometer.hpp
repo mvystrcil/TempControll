@@ -14,11 +14,11 @@ using namespace std;
 
 class IThermometer
 {
-	IThermometer();
-	virtual ~IThermometer();
+  IThermometer();
+  virtual ~IThermometer();
 
-	int getActualTemperature();
-	string getThermometerName();
+  int getActualTemperature();
+  string getThermometerName();
 };
 
 
