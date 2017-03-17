@@ -28,23 +28,22 @@ public:
 				&TimerLibTest::shortTimeout_50_ms));
     
     suiteOfTests->addTest(new CppUnit::TestCaller<TimerLibTest>("100ms timeout timer",
-				&TimerLibTest::shortTimeout_100_ms));
+				&TimerLibTest::middleTimeout_100_ms));
     
-    /*suiteOfTests->addTest(new CppUnit::TestCaller<ThermometerTest>("Prepare objects",
-				&ThermometerTest::createThermometerObjects));
-
-    suiteOfTests->addTest(new CppUnit::TestCaller<ThermometerTest>("Check objects",
-				&ThermometerTest::checkThermometerObjects));
-
-    suiteOfTests->addTest(new CppUnit::TestCaller<ThermometerTest>("Register objects",
-				&ThermometerTest::registerThermometers));*/
+    suiteOfTests->addTest(new CppUnit::TestCaller<TimerLibTest>("600ms timeout timer",
+				&TimerLibTest::longTimeout_600_ms));
+    
+    suiteOfTests->addTest(new CppUnit::TestCaller<TimerLibTest>("1000ms timeout timer",
+				&TimerLibTest::secondsTimeout_1_s));
 
     return suiteOfTests;
   }
 
 protected:  
   void shortTimeout_50_ms();
-  void shortTimeout_100_ms();
+  void middleTimeout_100_ms();
+  void longTimeout_600_ms();
+  void secondsTimeout_1_s();
 
 private:
   const int TIMER_TEST_WATCHDOG_MS = 5;

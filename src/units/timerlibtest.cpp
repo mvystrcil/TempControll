@@ -26,9 +26,19 @@ void TimerLibTest::shortTimeout_50_ms()
   this->testTimeout(TEST_SHORT_TIMEOUT);
 }
 
-void TimerLibTest::shortTimeout_100_ms()
+void TimerLibTest::middleTimeout_100_ms()
 {
   this->testTimeout(TEST_MIDDLE_TIMEOUT);
+}
+
+void TimerLibTest::longTimeout_600_ms()
+{
+  this->testTimeout(TEST_LONG_TIMEOUT);
+}
+
+void TimerLibTest::secondsTimeout_1_s()
+{
+  this->testTimeout(TEST_SECONDS_TIMEOUT);
 }
 
 /**
@@ -59,7 +69,6 @@ void TimerLibTest::testTimeout(const int m_timeout)
     loops--;
   }
   timeDiff = (TIMEOUT_LOOP(m_timeout) - loops) * TIMER_TEST_WATCHDOG_MS;
-  dbg << "TimeDiff: " << timeDiff << " timeout: " << m_timeout;
   reason.append("Unit test finished");
   
   if(timeDiff > 2 * TIMER_TEST_WATCHDOG_MS)
@@ -77,7 +86,7 @@ void TimerLibTest::testTimeout(const int m_timeout)
   supervision->stop(reason);
   supervisionThread.join();
   
-  CPPUNIT_ASSERT(! bigTimeDiff);
+  CPPUNIT_ASSERT(!bigTimeDiff);
   CPPUNIT_ASSERT(loops > 0);
   CPPUNIT_ASSERT(called);
 }
