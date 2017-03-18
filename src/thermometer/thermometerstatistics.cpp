@@ -32,15 +32,14 @@ bool ThermometerStatistics::setUpdateTimeout(const int timeout)
     return false;
   } 
   
-  this->updateTimeout = timeout;
+  this->updateTimeout = timeout * 1000;
   return true;
 }
 
 bool ThermometerStatistics::startStatsColl()
 {
-  dbg << "Register callback";
+  dbg << "Start collecting thermometer statistics " << this->getUpdateTimeout();
   TimeoutCallback callback = std::bind(&ThermometerStatistics::updateAllThermometers, this);
-  dbg << "fin";
   
   timer = new TimerLib(callback, this->getUpdateTimeout());
   timer->start();

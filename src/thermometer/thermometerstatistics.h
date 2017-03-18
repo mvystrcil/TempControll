@@ -6,20 +6,21 @@
 class ThermometerStatistics
 {
 public:
-    ThermometerStatistics(int updateTimeout=30);
-    virtual ~ThermometerStatistics();
-
-    int getUpdateTimeout() const;
-    bool setUpdateTimeout(const int timeout);
-    
-    bool startStatsColl();
-    bool stopStatsColl() const;
+  ThermometerStatistics(int updateTimeout=defaultTimeout);
+  virtual ~ThermometerStatistics();
+  
+  int getUpdateTimeout() const;
+  bool setUpdateTimeout(const int timeout);
+  
+  bool startStatsColl();
+  bool stopStatsColl() const;
 
 private:
-    int updateTimeout;
-    TimerLib *timer = nullptr;
-
-    void updateAllThermometers();
+  static const int defaultTimeout = 30000;
+  int updateTimeout;
+  TimerLib *timer = nullptr;
+  
+  void updateAllThermometers();
 };
 
 #endif // THERMOMETERSTATISTICS_H
