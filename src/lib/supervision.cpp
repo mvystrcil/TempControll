@@ -124,16 +124,21 @@ void Supervision::waitForThreads()
   {
     threadRunning = false;
     
-    for(iterator = this->startedThreads.begin(); iterator != this->startedThreads.end(); iterator++)
+    //for(iterator = this->startedThreads.begin(); iterator != this->startedThreads.end(); iterator++)
+    iterator = this->startedThreads.begin();
+    while(iterator != this->startedThreads.end())
     {
+      dbg << "Next iterator item";
       runn = *iterator;
       if(runn->joinable())
       {
 	threadRunning = true;
+	iterator++;
       }
       else
       {
-	//iterator = startedThreads.erase(iterator);
+	delete(runn);
+	iterator = startedThreads.erase(iterator);
       }
     }
     

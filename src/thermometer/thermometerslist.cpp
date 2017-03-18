@@ -10,7 +10,7 @@ ThermometersList::ThermometersList()
 
 ThermometersList::~ThermometersList()
 {
-  
+  this->unregisterAllThermometers();
 }
 
 ThermometersList& ThermometersList::getInstance()
@@ -53,12 +53,27 @@ bool ThermometersList::unregisterThermometer(const Thermometer* thermometer)
     if(th == thermometer)
     {
       info << "Erase thermometer " << th->getThermometerName();
+      delete(th);
       this->meters.erase(it);
       return true;
     }
   }
   
   return false;
+}
+
+bool ThermometersList::unregisterAllThermometers()
+{
+  vector<Thermometer *> list = this->getRegisteredList();
+  vector<Thermometer *>::iterator iterator = list.begin();
+  Thermometer *thermometer;
+  
+  while(iterator != list.end())
+  {
+    thermometer = *iterator;
+    this->unregisterThermometer(thermometer);
+    iterator++;
+  }
 }
 
 vector<Thermometer *> ThermometersList::getRegisteredList() const

@@ -12,6 +12,7 @@ public:
 
     bool registerThermometer(Thermometer* thermometer);
     bool unregisterThermometer(const Thermometer *thermometer);
+    bool unregisterAllThermometers();
     vector<Thermometer *> getRegisteredList() const;
     
     virtual ~ThermometersList();

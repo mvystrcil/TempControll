@@ -122,7 +122,6 @@ bool Configuration::loadConfiguration(ThermometerStatistics& statistics)
       
       pChildNode = pChildNode->get_next_sibling();
     }
-    
   } 
   catch (const std::exception& ex)
   {
