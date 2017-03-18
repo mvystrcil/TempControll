@@ -1,12 +1,13 @@
 BUILD_DIR := ./build
 SRC_DIRS := ./src
 UNITS_DIR := ./$(SRC_DIRS)/units
+EXTERNAL_DIR := ./$(SRC_DIRS)/external
 
 TARGET_EXEC := $(BUILD_DIR)/TempController
 UNITS_EXEC := $(BUILD_DIR)/UnitTests
 
 #SRCS := $(shell find $(SRC_DIRS) -name '*.cpp' -or -name '*.c')
-SRCS := $(shell find $(SRC_DIRS) -path $(UNITS_DIR) -prune -o -name '*.cpp' -or -name '*.c' | grep -vE './units' | grep -vE 'main.cpp')
+SRCS := $(shell find $(SRC_DIRS) -path $(UNITS_DIR) -path $(EXTERNAL_DIR) -prune -o -name '*.cpp' -or -name '*.c' | grep -vE './units' | grep -vE './external' | grep -vE 'main.cpp')
 MAIN_SRC := $(shell find $(SRC_DIRS) -name 'main.cpp')
 UNITS_SRCS := $(shell find $(UNITS_DIR) -name '*.cpp' -or -name '*.c')
 
@@ -28,6 +29,7 @@ CPPFLAGS := $(INC_FLAGS) $(CXX_11) $(shell pkg-config libxml++-2.6 --cflags) -I/
 
 .PHONY: clean
 .PHONY: units
+.PHONY: external
 
 all: $(OBJS) $(MAIN_OBJS) $(UNITS_OBJS)
 	@echo "### Link $(TARGET_EXEC)"
@@ -68,6 +70,9 @@ clean:
 	$(RM) -r $(BUILD_DIR)
 	$(RM) logger.log
 	$(RM) units.log
+
+external:
+	$(EXTERNAL_DIR)/external.sh
 
 MKDIR_P := mkdir -p
 
