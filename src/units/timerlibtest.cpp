@@ -4,12 +4,12 @@
 
 #include <functional>
 #include <thread>
-#include <chrono>
 
 #define TIMEOUT_LOOP(m_timeout) (2 * (m_timeout / TIMER_TEST_WATCHDOG_MS))
 
 void TimerLibTest::setUp()
 {
+
   called = false;
   supervision = new Supervision();
 }
@@ -46,6 +46,8 @@ void TimerLibTest::secondsTimeout_1_s()
  */
 void TimerLibTest::timeout()
 {
+  dbg << "Timeout occured";
+  end = std::chrono::steady_clock::now();
   called = true;
 }
 
@@ -53,13 +55,15 @@ void TimerLibTest::testTimeout(const int m_timeout)
 {
   // loop up to two times period
   int loops = TIMEOUT_LOOP(m_timeout);
-  int timeDiff = 0;
-  bool bigTimeDiff = false;
+  //int timeDiff = 0, spentTime = 0;
+  std::chrono::steady_clock::duration spentTime;
+  bool bigTimeDiff = false, lowTimeDiff = false;
   std::string reason = "";
   
   std::thread supervisionThread(&Supervision::init, supervision);  
   TimeoutCallback callback = std::bind(&TimerLibTest::timeout, this);
   timer = new TimerLib(callback, m_timeout);
+  start = std::chrono::steady_clock::now();
   timer->start();
   
   while(!called && (loops > 0) )
@@ -68,25 +72,40 @@ void TimerLibTest::testTimeout(const int m_timeout)
     std::this_thread::sleep_for(std::chrono::milliseconds(TIMER_TEST_WATCHDOG_MS));
     loops--;
   }
-  timeDiff = (TIMEOUT_LOOP(m_timeout) - loops) * TIMER_TEST_WATCHDOG_MS;
+  timer->stopExecution();
+  //spentTime
+  
+  spentTime = std::chrono::duration_cast<std::chrono::milliseconds>(end - start);
+  
+  dbg << "Spent time: " << spentTime.count();
   reason.append("Unit test finished");
   
-  if(timeDiff > 2 * TIMER_TEST_WATCHDOG_MS)
+  if(loops <= 0 || spentTime.count() > ((m_timeout + TIMER_PLUS_SPAN) * 1000000 )) 
   {
+    errn << "Timer took more time than expected, more than time + span" ;
+    bigTimeDiff = true; 
+    
     reason.append(" loops: ");
     reason.append(std::to_string(loops));
     reason.append(" callback: ");
     reason.append(std::to_string(called));
     reason.append(" sleep for: ");
     reason.append(std::to_string(m_timeout));
-    reason.append(" diff: ");
-    reason.append(std::to_string(TIMER_TEST_WATCHDOG_MS * (TIMEOUT_LOOP(m_timeout) - loops)));
+    reason.append(" spent: ");
+    reason.append(std::to_string(spentTime.count()));
     bigTimeDiff = true;
   }
+  else if(spentTime.count() < ((m_timeout) * 1000000 ))
+  {
+    errn << "Time took less time than expected";
+    lowTimeDiff = true;
+  }
+
   supervision->stop(reason);
   supervisionThread.join();
   
   CPPUNIT_ASSERT(!bigTimeDiff);
+  CPPUNIT_ASSERT(!lowTimeDiff);
   CPPUNIT_ASSERT(loops > 0);
   CPPUNIT_ASSERT(called);
 }

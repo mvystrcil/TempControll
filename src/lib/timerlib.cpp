@@ -35,15 +35,13 @@ bool TimerLib::start()
 void TimerLib::execute()
 {  
   // Split the timeout to 100 ms stages, to improve thread handling
-  int milliseconds = m_timeout * 1000;
+  int milliseconds = m_timeout;
   bool m_break = false;
   int steps = milliseconds / TIMERLIB_TIMEOUT_STEPS_MS;
   int rest = milliseconds % TIMERLIB_TIMEOUT_STEPS_MS;
   
   while(! m_stop)
-  { 
-    m_call();
-    
+  {     
     for(int i = 0; i < steps; i++)
     {
       this->sleep(TIMERLIB_TIMEOUT_STEPS_MS);
@@ -59,9 +57,9 @@ void TimerLib::execute()
     {
       this->sleep(rest);
     }
+    
+    m_call();
   }
-  
-  info << "Stopping TimerThread " << std::this_thread::get_id();
 }
 
 void TimerLib::sleep(int milliseconds)

@@ -7,6 +7,7 @@
 #include <cppunit/TestCaller.h>
 #include <cppunit/TestSuite.h>
 #include <cppunit/TestCase.h>
+#include <chrono>
 
 #include "../lib/supervision.h"
 #include "../lib/timerlib.h"
@@ -47,6 +48,7 @@ protected:
 
 private:
   const int TIMER_TEST_WATCHDOG_MS = 5;
+  const int TIMER_PLUS_SPAN = 2;
   const int TEST_SHORT_TIMEOUT = 50;
   const int TEST_MIDDLE_TIMEOUT = 100;
   const int TEST_LONG_TIMEOUT = 600;
@@ -55,6 +57,7 @@ private:
   bool called;
   TimerLib *timer;
   Supervision *supervision;
+  std::chrono::steady_clock::time_point start, end;	
   
   void timeout();
   void testTimeout(const int m_timeout);
