@@ -20,7 +20,6 @@ bool Configuration::loadThermometers(xmlpp::Node *node, ThermometerStatistics& s
   xmlpp::TextNode *text;
   
   Thermometer *thermometer;
-  ThermometersList list = ThermometersList::getInstance();
   
   dbg << "Thermometers node: " << node->get_name();
   child = node->get_first_child();
@@ -39,7 +38,7 @@ bool Configuration::loadThermometers(xmlpp::Node *node, ThermometerStatistics& s
       this->loadThermometerSettings(child, thermometer);
       
       // Register thermometer to the list of known
-      list.registerThermometer(thermometer);
+      ThermometersList::getInstance().registerThermometer(thermometer);
     }
     else if (child->get_name().compare(XML_TAG_THERMOMETERS_PERIOD) == 0)
     {

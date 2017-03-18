@@ -8,6 +8,7 @@ Thermometer::Thermometer(const string &name, const std::string &address)
     this->address = address;
     this->temperature = 0;
     this->updatePeriod = 0;
+    this->lastUpdate = std::chrono::steady_clock::now();
 }
 
 Thermometer::~Thermometer()
@@ -19,7 +20,7 @@ string Thermometer::getThermometerName() const
     return this->name;
 }
 
-int Thermometer::getTemperature()
+int Thermometer::getTemperature() const
 {
   std::chrono::steady_clock::time_point act = std::chrono::steady_clock::now();
   int delay = (std::chrono::duration_cast<std::chrono::seconds>(act - lastUpdate)).count();
@@ -29,7 +30,7 @@ int Thermometer::getTemperature()
   // use the cached one
   if(delay > THERMOMETER_READ_TEMPERATURE_MIN_PAUSE)
   {
-    this->readTemperature();
+    return this->readTemperature();
   }
   
   return this->temperature;
@@ -70,8 +71,8 @@ bool Thermometer::operator ==(const Thermometer& other) const
     return false;
 }
 
-const double Thermometer::readTemperature()
+double Thermometer::readTemperature() const
 {
-  lastUpdate = std::chrono::steady_clock::now();
+  //lastUpdate = std::chrono::steady_clock::now();
   return 24.3;
 }

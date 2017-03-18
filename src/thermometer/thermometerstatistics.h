@@ -2,6 +2,7 @@
 #define THERMOMETERSTATISTICS_H
 
 #include "../lib/timerlib.h"
+#include "thermometer/ithermometer.hpp"
 
 class ThermometerStatistics
 {
@@ -21,6 +22,7 @@ private:
   TimerLib *timer = nullptr;
   
   void updateAllThermometers();
+  bool storeThermometerData(const IThermometer* thermometer);
 };
 
 #endif // THERMOMETERSTATISTICS_H

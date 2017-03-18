@@ -10,6 +10,7 @@ ThermometersList::ThermometersList()
 
 ThermometersList::~ThermometersList()
 {
+  dbg << "Destructor called";
   this->unregisterAllThermometers();
 }
 

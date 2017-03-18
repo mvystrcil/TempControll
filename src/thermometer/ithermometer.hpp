@@ -10,15 +10,14 @@
 
 #include <string>
 
-using namespace std;
-
 class IThermometer
 {
-  IThermometer();
-  virtual ~IThermometer();
+public:
+  explicit IThermometer(){};
+  virtual ~IThermometer(){};
 
-  int getActualTemperature();
-  string getThermometerName();
+  virtual int getTemperature() const = 0;
+  virtual std::string getThermometerName() const = 0;
 };
 
 

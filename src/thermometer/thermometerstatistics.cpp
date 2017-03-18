@@ -65,7 +65,13 @@ void ThermometerStatistics::updateAllThermometers(void)
   
   for(it; it != array.end(); it++)
   {
-    Thermometer *thermometer = *it;
-    dbg << "Temp " << thermometer->getThermometerName() << "\t" << thermometer->getTemperature();
+    IThermometer *thermometer = *it;
+    this->storeThermometerData(thermometer);
   }
 }
+
+bool ThermometerStatistics::storeThermometerData(const IThermometer* thermometer)
+{
+  dbg << "Store thermometer: " << thermometer->getThermometerName() << " temp: " << thermometer->getTemperature();
+}
+

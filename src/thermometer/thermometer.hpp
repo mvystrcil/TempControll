@@ -16,7 +16,7 @@
 
 using namespace std;
 
-class Thermometer
+class Thermometer : public IThermometer
 {
 public:
 	/*
@@ -31,7 +31,7 @@ public:
   virtual ~Thermometer();
 
   string getThermometerName() const;
-  int getTemperature();
+  int getTemperature() const;
   bool updateTemperature(const int temperature);
   
   bool setMinMaxTemp(const double min, const double max);
@@ -49,7 +49,7 @@ private:
   int updatePeriod;
   std::chrono::steady_clock::time_point lastUpdate;
   
-  const double readTemperature();
+  double readTemperature() const;
 
 };
 
