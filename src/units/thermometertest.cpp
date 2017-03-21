@@ -10,14 +10,15 @@
 
 void ThermometerTest::setUp()
 {
-	thermometerA = new Thermometer("A");
-	thermometerB = new Thermometer("B");
+  thermometerA = new Thermometer("A");
+  thermometerB = new Thermometer("B");
 }
 
 void ThermometerTest::tearDown()
 {
-	delete(thermometerA);
-	delete(thermometerB);
+  // Thermometerlist delete all instances by itself now
+  /*delete(thermometerA);
+  delete(thermometerB);*/
 }
 
 void ThermometerTest::createThermometerObjects()
@@ -44,20 +45,19 @@ void ThermometerTest::checkThermometerObjects()
 void ThermometerTest::registerThermometers()
 {
     Thermometer test("test");
-    ThermometersList& list = ThermometersList::getInstance();
 
     //ThermometersList& list2 = ThermometersList::getInstance();
     // Compare if these two instanaces are the same
     //CPPUNIT_ASSERT(list == list2);
 
-    CPPUNIT_ASSERT(list.registerThermometer(thermometerA) == true);
-    CPPUNIT_ASSERT(list.registerThermometer(thermometerB) == true);
-    CPPUNIT_ASSERT(list.registerThermometer(thermometerA) == false);
+    CPPUNIT_ASSERT(ThermometersList::getInstance().registerThermometer(thermometerA) == true);
+    CPPUNIT_ASSERT(ThermometersList::getInstance().registerThermometer(thermometerB) == true);
+    CPPUNIT_ASSERT(ThermometersList::getInstance().registerThermometer(thermometerA) == false);
 
-    CPPUNIT_ASSERT(list.unregisterThermometer(&test) == false);
-    CPPUNIT_ASSERT(list.unregisterThermometer(thermometerA) == true);
-    CPPUNIT_ASSERT(list.unregisterThermometer(thermometerA) == false);
-    CPPUNIT_ASSERT(list.unregisterThermometer(thermometerB) == true);
-    CPPUNIT_ASSERT(list.unregisterThermometer(thermometerB) == false);
-    CPPUNIT_ASSERT(list.unregisterThermometer(&test) == false);
+    CPPUNIT_ASSERT(ThermometersList::getInstance().unregisterThermometer(&test) == false);
+    CPPUNIT_ASSERT(ThermometersList::getInstance().unregisterThermometer(thermometerA) == true);
+    CPPUNIT_ASSERT(ThermometersList::getInstance().unregisterThermometer(thermometerA) == false);
+    CPPUNIT_ASSERT(ThermometersList::getInstance().unregisterThermometer(thermometerB) == true);
+    CPPUNIT_ASSERT(ThermometersList::getInstance().unregisterThermometer(thermometerB) == false);
+    CPPUNIT_ASSERT(ThermometersList::getInstance().unregisterThermometer(&test) == false);
 }
