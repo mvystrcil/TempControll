@@ -38,7 +38,7 @@ all: $(OBJS) $(MAIN_OBJS) $(UNITS_OBJS)
 	@echo "### Link $(TARGET_EXEC)"
 	$(CXX) $(OBJS) $(MAIN_OBJS) -o $(TARGET_EXEC) $(LDFLAGS)
 	@echo "### Link $(UNITS_EXEC)"
-	$(CXX) $(UNITS_OBJS) $(OBJS) -o $(UNITS_EXEC) $(LDFLAGS)
+	$(CXX) $(UNITS_OBJS) $(OBJS) -o $(UNITS_EXEC) $(LDFLAGS_UNITS)
 
 # assembly
 $(BUILD_DIR)/%.s.o: %.s
