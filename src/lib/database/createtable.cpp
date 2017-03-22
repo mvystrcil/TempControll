@@ -16,3 +16,8 @@ bool CreateTable::appendColumn(std::string columnName, SQLTypes::ColumnType colu
 {
 
 }
+
+std::string CreateTable::queryToString() const
+{
+  return "AA";
+}

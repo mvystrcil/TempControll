@@ -18,6 +18,7 @@ public:
   ~CreateTable();
 
   bool appendColumn(std::string columnName, SQLTypes::ColumnType columnType);
+  std::string queryToString() const;
 };
 
 #endif

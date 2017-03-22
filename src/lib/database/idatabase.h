@@ -4,6 +4,8 @@
 #include <string>
 #include <vector>
 
+#include "sql.h"
+
 class IDatabase {
 
 public:
@@ -16,7 +18,7 @@ public:
   */
   virtual bool openDatabase(std::vector<std::string> inputParams = std::vector<std::string>()) = 0;
   
-  virtual bool createTable();
+  virtual bool executeQuery(SQL *query) = 0;
 };
 
 #endif

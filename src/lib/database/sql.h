@@ -15,6 +15,8 @@ public:
     query.append("param");
     return true;
   }
+  
+  virtual std::string queryToString() const = 0;
 
 protected:
   std::string query = ""; 

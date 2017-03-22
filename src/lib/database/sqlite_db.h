@@ -13,6 +13,8 @@ public:
   ~SQLiteDB();
 
   bool openDatabase(std::vector<std::string> inputParams);
+  
+  bool executeQuery(SQL *query);
 
 private:
   std::string m_databasePath;
