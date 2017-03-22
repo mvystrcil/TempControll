@@ -41,6 +41,11 @@ void TimerLibTest::secondsTimeout_1_s()
   this->testTimeout(TEST_SECONDS_TIMEOUT);
 }
 
+void TimerLibTest::repetitiveTimeout_100ms()
+{
+  this->testRepetitiveTimeout(TEST_MIDDLE_TIMEOUT);
+}
+
 /**
  * Will signal received timeout and store it.
  */
@@ -51,10 +56,10 @@ void TimerLibTest::timeout()
   called = true;
 }
 
-void TimerLibTest::testTimeout(const int m_timeout)
+void TimerLibTest::testTimeout(const int timeout)
 {
   // loop up to two times period
-  int loops = TIMEOUT_LOOP(m_timeout);
+  int loops = TIMEOUT_LOOP(timeout);
   //int timeDiff = 0, spentTime = 0;
   std::chrono::steady_clock::duration spentTime;
   bool bigTimeDiff = false, lowTimeDiff = false;
@@ -62,7 +67,7 @@ void TimerLibTest::testTimeout(const int m_timeout)
   
   std::thread supervisionThread(&Supervision::init, supervision);  
   TimeoutCallback callback = std::bind(&TimerLibTest::timeout, this);
-  timer = new TimerLib(callback, m_timeout);
+  timer = new TimerLib(callback, timeout);
   start = std::chrono::steady_clock::now();
   timer->start();
   
@@ -73,7 +78,6 @@ void TimerLibTest::testTimeout(const int m_timeout)
     loops--;
   }
   timer->stopExecution();
-  //spentTime
 
   spentTime = std::chrono::duration_cast<std::chrono::milliseconds>(end - start);
   
@@ -85,7 +89,7 @@ void TimerLibTest::testTimeout(const int m_timeout)
   dbg << "Spent time: " << spentTime.count();
   reason.append("Unit test finished");
   
-  if(loops <= 0 || spentTime.count() > ((m_timeout + TIMER_PLUS_SPAN) * 1000000 )) 
+  if(loops <= 0 || spentTime.count() > ((timeout + TIMER_PLUS_SPAN) * 1000000 )) 
   {
     errn << "Timer took more time than expected, more than time + span" ;
     bigTimeDiff = true; 
@@ -95,12 +99,12 @@ void TimerLibTest::testTimeout(const int m_timeout)
     reason.append(" callback: ");
     reason.append(std::to_string(called));
     reason.append(" sleep for: ");
-    reason.append(std::to_string(m_timeout));
+    reason.append(std::to_string(timeout));
     reason.append(" spent: ");
     reason.append(std::to_string(spentTime.count()));
     bigTimeDiff = true;
   }
-  else if(spentTime.count() < ((m_timeout) * 1000000 ))
+  else if(spentTime.count() < ((timeout) * 1000000 ))
   {
     errn << "Time took less time than expected";
     lowTimeDiff = true;
@@ -111,3 +115,9 @@ void TimerLibTest::testTimeout(const int m_timeout)
   CPPUNIT_ASSERT(loops > 0);
   CPPUNIT_ASSERT(called);
 }
+
+void TimerLibTest::testRepetitiveTimeout(const int timeout)
+{
+  dbg << "Start repetitive test " << timeout;
+}
+
