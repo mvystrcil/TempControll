@@ -6,7 +6,8 @@
 #include <cppunit/TestCaller.h>
 #include <cppunit/TestSuite.h>
 #include <cppunit/TestCase.h>
-#include <chrono>
+
+#include "../lib/logger.h"
 
 class DatabaseTest : public CppUnit::TestFixture
 {
@@ -22,7 +23,8 @@ public:
 
     suiteOfTests->addTest(new CppUnit::TestCaller<DatabaseTest>("Create table test",
                                 &DatabaseTest::createBasicTableTest));
-
+    
+    return suiteOfTests;
   }
 
 

@@ -12,10 +12,10 @@ int main() {
   
   CppUnit::TextUi::TestRunner runner;
   
-  dbg << "Unit tests started";
   runner.addTest(ThermometerTest::suite());
-  runner.addTest(TimerLibTest::suite());
+  runner.addTest(TimerLibTest::suite());  
   runner.addTest(DatabaseTest::suite());
+  
   dbg << "Running the unit tests.";
   runner.run();
   
