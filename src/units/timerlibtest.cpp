@@ -74,8 +74,13 @@ void TimerLibTest::testTimeout(const int m_timeout)
   }
   timer->stopExecution();
   //spentTime
-  
+
   spentTime = std::chrono::duration_cast<std::chrono::milliseconds>(end - start);
+  
+  dbg << "Stop supervision threads";
+  
+  supervision->stop(reason);
+  supervisionThread.join();
   
   dbg << "Spent time: " << spentTime.count();
   reason.append("Unit test finished");
@@ -100,9 +105,6 @@ void TimerLibTest::testTimeout(const int m_timeout)
     errn << "Time took less time than expected";
     lowTimeDiff = true;
   }
-
-  supervision->stop(reason);
-  supervisionThread.join();
   
   CPPUNIT_ASSERT(!bigTimeDiff);
   CPPUNIT_ASSERT(!lowTimeDiff);
