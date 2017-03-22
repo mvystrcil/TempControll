@@ -3,6 +3,7 @@
  
 #include "thermometertest.h"
 #include "timerlibtest.h"
+#include "databasetest.h"
 #include "../lib/logger.h"
  
 int main() {
@@ -14,6 +15,7 @@ int main() {
   dbg << "Unit tests started";
   runner.addTest(ThermometerTest::suite());
   runner.addTest(TimerLibTest::suite());
+  runner.addTest(DatabaseTest::suite());
   dbg << "Running the unit tests.";
   runner.run();
   
