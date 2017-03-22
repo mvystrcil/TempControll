@@ -8,6 +8,7 @@
 #include <cppunit/TestCase.h>
 
 #include "../lib/logger.h"
+#include "../lib/database/idatabase.h"
 
 class DatabaseTest : public CppUnit::TestFixture
 {
@@ -30,6 +31,9 @@ public:
 
 protected:
   void createBasicTableTest();
+  
+private:
+  IDatabase *databaseInstance;
 };
 
 #endif

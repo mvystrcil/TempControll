@@ -4,7 +4,7 @@
 
 void DatabaseTest::setUp()
 {
-
+  //databaseInstance = IDatabase::
 }
 
 void DatabaseTest::tearDown()
