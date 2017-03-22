@@ -15,6 +15,8 @@ public:
   * TODO: think about some better structure
   */
   virtual bool openDatabase(std::vector<std::string> inputParams = std::vector<std::string>()) = 0;
+  
+  virtual bool createTable();
 };
 
 #endif

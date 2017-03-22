@@ -9,6 +9,7 @@
 
 #include "../lib/logger.h"
 #include "../lib/database/idatabase.h"
+#include "../lib/database/database_factory.h"
 
 class DatabaseTest : public CppUnit::TestFixture
 {

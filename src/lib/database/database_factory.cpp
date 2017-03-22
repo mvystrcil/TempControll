@@ -16,6 +16,12 @@ DatabaseFactory::~DatabaseFactory()
 
 }
 
+DatabaseFactory& DatabaseFactory::getInstance()
+{
+  static DatabaseFactory instance;
+  return instance;
+}
+
 IDatabase* DatabaseFactory::getDatabase(const DatabaseFactory::DatabaseTypes& type)
 {
   switch(type)
