@@ -3,16 +3,19 @@
 
 #include "idatabase.h"
 
+#include <string>
+
 class SQLiteDB : public IDatabase
 {
-private:
-  std::string m_databasePath;
 
 public:
   SQLiteDB(const std::string &databasePath = "./temp_controll_db.sqlite3");
   ~SQLiteDB();
 
   bool openDatabase(std::vector<std::string> inputParams);
+
+private:
+  std::string m_databasePath;
 };
 
 
