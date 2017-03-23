@@ -9,14 +9,16 @@
 
 void TimerLibTest::setUp()
 {
-
   called = false;
   supervision = new Supervision();
+  
+  supervisionThread = std::thread(&Supervision::init, supervision);
 }
 
 void TimerLibTest::tearDown()
 {
   supervision->stop("Unit testing");
+  supervisionThread.join();
   
   delete(supervision);
 }
@@ -61,7 +63,6 @@ void TimerLibTest::testTimeout(const int timeout)
   int loops = TIMEOUT_LOOP(timeout);
   std::chrono::steady_clock::duration spentTime;
   
-  std::thread supervisionThread(&Supervision::init, supervision);
   this->startTimerAndLogTimestamp(timeout);
   
   while(!called && (loops > 0) )
@@ -70,15 +71,9 @@ void TimerLibTest::testTimeout(const int timeout)
     std::this_thread::sleep_for(std::chrono::milliseconds(TIMER_TEST_WATCHDOG_MS));
     loops--;
   }
+  
   timer->stopExecution();
-
-  spentTime = std::chrono::duration_cast<std::chrono::milliseconds>(end - start);
-  
-  dbg << "Stop supervision threads";
-  
-  supervision->stop("Unit test finished");
-  supervisionThread.join();
-  
+  spentTime = std::chrono::duration_cast<std::chrono::milliseconds>(end - start);  
   this->processResults(spentTime, loops, timeout);
 }
 
@@ -87,6 +82,9 @@ void TimerLibTest::testTimeout(const int timeout)
  */
 void TimerLibTest::testRepetitiveTimeout(const int timeout, const int repetitions)
 {
+  int loops = TIMEOUT_LOOP(timeout);
+  std::chrono::steady_clock::duration spentTime;
+  
   dbg << "Start repetitive test " << timeout;
   
   /*std::thread supervisionThread(&Supervision::init, supervision);
@@ -94,11 +92,21 @@ void TimerLibTest::testRepetitiveTimeout(const int timeout, const int repetition
   
   for(int idx = 0; idx < repetitions; idx++)
   {
-    while(!called)
+    while(!called && (loops > 0) )
     {
-      
+      // sleep for watchdog period, should be smaller than m_timeout
+      std::this_thread::sleep_for(std::chrono::milliseconds(TIMER_TEST_WATCHDOG_MS));
+      loops--;
     }
-  }*/
+    
+    spentTime = std::chrono::duration_cast<std::chrono::milliseconds>(end - start);
+    
+    this->processResults(spentTime, loops, timeout);
+    
+    start = std::chrono::steady_clock::now();
+  }
+  
+  timer->stopExecution();*/
   
 }
 

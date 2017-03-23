@@ -63,6 +63,8 @@ private:
   bool called;
   TimerLib *timer;
   Supervision *supervision;
+  std::thread supervisionThread;
+  
   std::chrono::steady_clock::time_point start, end;	
   
   void timeout();
