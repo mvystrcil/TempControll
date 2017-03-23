@@ -5,6 +5,7 @@
 
 LogLevel Logger::current = INFO;
 std::ofstream Logger::file;
+bool Logger::consoleEnabled = true;
 
 Logger::Logger()
 {
@@ -20,8 +21,11 @@ Logger::~Logger()
 {
   str << std::endl;
   
-  fprintf(stdout, "%s", str.str().c_str());
-  fflush(stdout);
+  if(consoleEnabled)
+  {
+    fprintf(stdout, "%s", str.str().c_str());
+    fflush(stdout);
+  }
   
   if(file.is_open())
   {
@@ -50,6 +54,11 @@ void Logger::setLogToFile(const std::string& path)
   {
     file.open(path);
   }
+}
+
+void Logger::setLogToConsole(const bool logToConsole)
+{
+  consoleEnabled = logToConsole;
 }
 
 void Logger::finishLogSession()

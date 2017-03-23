@@ -31,6 +31,7 @@ class Logger {
 
 private:
   static LogLevel current;
+  static bool consoleEnabled;
   static std::ofstream file;
   
   Logger(const Logger& other);
@@ -45,6 +46,7 @@ public:
   static LogLevel& getReportingLevel();
   static void setReportingLevel(const LogLevel& level = INFO);
   static void setLogToFile(const std::string& path);
+  static void setLogToConsole(const bool logToConsole);
   static void finishLogSession();
   
 protected:

@@ -8,6 +8,7 @@
  
 int main() {
   Logger::setReportingLevel(DEBUG);
+  Logger::setLogToConsole(false);
   Logger::setLogToFile("units.log");
   
   CppUnit::TextUi::TestRunner runner;
