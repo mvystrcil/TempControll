@@ -43,7 +43,7 @@ void TimerLibTest::secondsTimeout_1_s()
 
 void TimerLibTest::repetitiveTimeout_100ms()
 {
-  this->testRepetitiveTimeout(TEST_MIDDLE_TIMEOUT);
+  this->testRepetitiveTimeout(TEST_MIDDLE_TIMEOUT, TEST_REPETITIVE_REPEAT_10);
 }
 
 /**
@@ -58,12 +58,8 @@ void TimerLibTest::timeout()
 
 void TimerLibTest::testTimeout(const int timeout)
 {
-  // loop up to two times period
   int loops = TIMEOUT_LOOP(timeout);
-  //int timeDiff = 0, spentTime = 0;
   std::chrono::steady_clock::duration spentTime;
-  bool bigTimeDiff = false, lowTimeDiff = false;
-  std::string reason = "";
   
   std::thread supervisionThread(&Supervision::init, supervision);
   this->startTimerAndLogTimestamp(timeout);
@@ -80,17 +76,53 @@ void TimerLibTest::testTimeout(const int timeout)
   
   dbg << "Stop supervision threads";
   
-  supervision->stop(reason);
+  supervision->stop("Unit test finished");
   supervisionThread.join();
   
-  dbg << "Spent time: " << spentTime.count();
-  reason.append("Unit test finished");
+  this->processResults(spentTime, loops, timeout);
+}
+
+/*
+ * This function is upgrade of the basic testTimeout function
+ */
+void TimerLibTest::testRepetitiveTimeout(const int timeout, const int repetitions)
+{
+  dbg << "Start repetitive test " << timeout;
   
-  if(loops <= 0 || spentTime.count() > ((timeout + TIMER_PLUS_SPAN) * 1000000 )) 
+  /*std::thread supervisionThread(&Supervision::init, supervision);
+  this->startTimerAndLogTimestamp(timeout);
+  
+  for(int idx = 0; idx < repetitions; idx++)
+  {
+    while(!called)
+    {
+      
+    }
+  }*/
+  
+}
+
+inline void TimerLibTest::startTimerAndLogTimestamp(const int timeout)
+{ 
+  TimeoutCallback callback = std::bind(&TimerLibTest::timeout, this);
+  timer = new TimerLib(callback, timeout);
+  start = std::chrono::steady_clock::now();
+  timer->start();
+}
+
+void TimerLibTest::processResults(const std::chrono::steady_clock::duration& spent,
+  const int loops, const int timeout)
+{
+  std::string reason = "";
+  bool bigTimeDiff = false, lowTimeDiff = false;
+  
+  dbg << "Spent time: " << spent.count();
+  
+  if(loops <= 0 || spent.count() > ((timeout + TIMER_PLUS_SPAN) * 1000000 )) 
   {
     errn << "Timer took more time than expected, more than time + span" ;
     bigTimeDiff = true; 
-    
+    reason.append("Unit test finished");
     reason.append(" loops: ");
     reason.append(std::to_string(loops));
     reason.append(" callback: ");
@@ -98,10 +130,12 @@ void TimerLibTest::testTimeout(const int timeout)
     reason.append(" sleep for: ");
     reason.append(std::to_string(timeout));
     reason.append(" spent: ");
-    reason.append(std::to_string(spentTime.count()));
+    reason.append(std::to_string(spent.count()));
+    
+    errn << reason;
     bigTimeDiff = true;
   }
-  else if(spentTime.count() < ((timeout) * 1000000 ))
+  else if(spent.count() < ((timeout) * 1000000 ))
   {
     errn << "Time took less time than expected";
     lowTimeDiff = true;
@@ -111,17 +145,4 @@ void TimerLibTest::testTimeout(const int timeout)
   CPPUNIT_ASSERT(!lowTimeDiff);
   CPPUNIT_ASSERT(loops > 0);
   CPPUNIT_ASSERT(called);
-}
-
-void TimerLibTest::testRepetitiveTimeout(const int timeout)
-{
-  dbg << "Start repetitive test " << timeout;
-}
-
-inline void TimerLibTest::startTimerAndLogTimestamp(const int timeout)
-{ 
-  TimeoutCallback callback = std::bind(&TimerLibTest::timeout, this);
-  timer = new TimerLib(callback, timeout);
-  start = std::chrono::steady_clock::now();
-  timer->start();
 }

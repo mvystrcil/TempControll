@@ -58,6 +58,8 @@ private:
   const int TEST_LONG_TIMEOUT = 600;
   const int TEST_SECONDS_TIMEOUT = 1000;
   
+  const int TEST_REPETITIVE_REPEAT_10 = 10;
+  
   bool called;
   TimerLib *timer;
   Supervision *supervision;
@@ -65,8 +67,10 @@ private:
   
   void timeout();
   void testTimeout(const int timeout);
-  void testRepetitiveTimeout(const int timeout);
+  void testRepetitiveTimeout(const int timeout, const int repetitions);
+  
   inline void startTimerAndLogTimestamp(const int timeout);
+  void processResults(const std::chrono::steady_clock::duration& spent, const int loops, const int timeout);
 };
 
 #endif
