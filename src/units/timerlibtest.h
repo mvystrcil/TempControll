@@ -53,6 +53,7 @@ protected:
 private:
   const int TIMER_TEST_WATCHDOG_MS = 5;
   const int TIMER_PLUS_SPAN = 20;
+  const int TIMER_MINUS_SPAN = 10;
   const int TEST_SHORT_TIMEOUT = 50;
   const int TEST_MIDDLE_TIMEOUT = 100;
   const int TEST_LONG_TIMEOUT = 600;

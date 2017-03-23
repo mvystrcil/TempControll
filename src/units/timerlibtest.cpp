@@ -11,7 +11,6 @@ void TimerLibTest::setUp()
 {
   called = false;
   supervision = new Supervision();
-  
   supervisionThread = std::thread(&Supervision::init, supervision);
 }
 
@@ -85,13 +84,14 @@ void TimerLibTest::testRepetitiveTimeout(const int timeout, const int repetition
   int loops = TIMEOUT_LOOP(timeout);
   std::chrono::steady_clock::duration spentTime;
   
-  dbg << "Start repetitive test " << timeout;
-  
-  /*std::thread supervisionThread(&Supervision::init, supervision);
   this->startTimerAndLogTimestamp(timeout);
+  dbg << "Repetitive test started";
   
   for(int idx = 0; idx < repetitions; idx++)
   {
+    loops = TIMEOUT_LOOP(timeout);
+    called = false;
+    
     while(!called && (loops > 0) )
     {
       // sleep for watchdog period, should be smaller than m_timeout
@@ -101,12 +101,12 @@ void TimerLibTest::testRepetitiveTimeout(const int timeout, const int repetition
     
     spentTime = std::chrono::duration_cast<std::chrono::milliseconds>(end - start);
     
-    this->processResults(spentTime, loops, timeout);
-    
+    // Start new period as soon as possible, beacuse timer won't wait
     start = std::chrono::steady_clock::now();
+    this->processResults(spentTime, loops, timeout);
   }
   
-  timer->stopExecution();*/
+  timer->stopExecution();
   
 }
 
@@ -145,8 +145,12 @@ void TimerLibTest::processResults(const std::chrono::steady_clock::duration& spe
   }
   else if(spent.count() < ((timeout) * 1000000 ))
   {
-    errn << "Time took less time than expected";
-    lowTimeDiff = true;
+    if((((timeout - TIMER_MINUS_SPAN) * 1000000 ) - spent.count()) > 0)
+    {
+      warn << "Time took less time than expected";
+      warn << "Diff " << (((timeout) * 1000000 ) - spent.count());
+      lowTimeDiff = true;
+    }
   }
   
   CPPUNIT_ASSERT(!bigTimeDiff);
