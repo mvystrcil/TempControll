@@ -20,4 +20,6 @@ bool SQLiteDB::openDatabase(std::vector<std::string> inputParams)
 bool SQLiteDB::executeQuery(SQL *query)
 {
   dbg << "Executing SQL query: " << query->queryToString() ;
+  
+  return true;
 }
