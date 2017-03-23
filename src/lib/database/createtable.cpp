@@ -2,7 +2,8 @@
 
 #include "logger.h"
 
-CreateTable::CreateTable(std::string tableName) : m_tableName(tableName)
+CreateTable::CreateTable(std::string tableName, bool checkForExistence) : m_tableName(tableName), 
+  m_checkForExistence(checkForExistence)
 {
 
 }
@@ -10,6 +11,11 @@ CreateTable::CreateTable(std::string tableName) : m_tableName(tableName)
 CreateTable::~CreateTable()
 {
 
+}
+
+void CreateTable::checkIfExists(const bool checkForExistence)
+{
+  this->m_checkForExistence = checkForExistence;
 }
 
 bool CreateTable::appendColumn(std::string columnName, SQLTypes::ColumnType columnType)
