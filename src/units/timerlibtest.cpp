@@ -65,11 +65,8 @@ void TimerLibTest::testTimeout(const int timeout)
   bool bigTimeDiff = false, lowTimeDiff = false;
   std::string reason = "";
   
-  std::thread supervisionThread(&Supervision::init, supervision);  
-  TimeoutCallback callback = std::bind(&TimerLibTest::timeout, this);
-  timer = new TimerLib(callback, timeout);
-  start = std::chrono::steady_clock::now();
-  timer->start();
+  std::thread supervisionThread(&Supervision::init, supervision);
+  this->startTimerAndLogTimestamp(timeout);
   
   while(!called && (loops > 0) )
   {
@@ -121,3 +118,10 @@ void TimerLibTest::testRepetitiveTimeout(const int timeout)
   dbg << "Start repetitive test " << timeout;
 }
 
+inline void TimerLibTest::startTimerAndLogTimestamp(const int timeout)
+{ 
+  TimeoutCallback callback = std::bind(&TimerLibTest::timeout, this);
+  timer = new TimerLib(callback, timeout);
+  start = std::chrono::steady_clock::now();
+  timer->start();
+}
