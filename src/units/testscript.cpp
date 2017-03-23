@@ -16,7 +16,7 @@ bool parseInputArgs(int argc, char *argv[])
   
   dbg << "Parsing input arguments";
   
-  while((opt = getopt(argc, argv, "c:")) != -1)
+  while((opt = getopt(argc, argv, "c")) != -1)
   {
     switch(opt)
     {
@@ -35,6 +35,12 @@ bool parseInputArgs(int argc, char *argv[])
 
 int main(int argc, char *argv[]) { 
   Logger::setReportingLevel(DEBUG);
+  
+  if(! parseInputArgs(argc, argv))
+  {
+    errn << "Cannot parse input arguments";
+  }
+  
   Logger::setLogToConsole(consoleEnabled);
   Logger::setLogToFile("units.log");
   
