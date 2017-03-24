@@ -18,6 +18,7 @@ void DatabaseTest::tearDown()
 void DatabaseTest::createBasicTableTest()
 {
   CreateTable ctb("UnitTestTable");
+  ctb.appendColumn(SQLColumn("ID", SQLTypes::INT, true, true, true));
   ctb.appendColumn(SQLColumn("Name", SQLTypes::STRING));
   ctb.appendColumn(SQLColumn("Address", SQLTypes::STRING));
   
