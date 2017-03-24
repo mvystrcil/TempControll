@@ -18,9 +18,9 @@ public:
   CreateTable(std::string tableName, bool checkForExistence = true);
   ~CreateTable();
 
-  bool appendColumn(std::string columnName, SQLTypes::ColumnType columnType);
+  bool appendColumn(const SQLColumn& column);
   void checkIfExists(const bool checkForExistence);
-  std::string queryToString() const;
+  virtual std::string queryToString() const;
 };
 
 #endif

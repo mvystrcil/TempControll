@@ -2,6 +2,7 @@
 #define _H_DATABASE_FACTORY
 
 #include "idatabase.h"
+#include "sql.h"
 
 #include <vector>
 
