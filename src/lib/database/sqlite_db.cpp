@@ -38,6 +38,29 @@ bool SQLiteDB::openDatabase(const std::unordered_map< std::string, std::string >
   return false;
 }
 
+bool SQLiteDB::closeDatabase()
+{
+  int rc = 0;
+  
+  if(database == nullptr)
+  {
+    // Already closed or even not opened yet
+    return true;
+  }
+  
+  rc = sqlite3_close(database);
+  if(rc != SQLITE_OK)
+  {
+    errn << "Error while closing database";
+    errn << "RC: " << rc;
+    
+    return false;
+  }
+  
+  database = nullptr;  
+  return true;
+}
+
 
 /*
  * Distinguish based on type of SQL query and serialize the request

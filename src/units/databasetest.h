@@ -10,6 +10,7 @@
 #include "../lib/logger.h"
 #include "../lib/database/idatabase.h"
 #include "../lib/database/database_factory.h"
+#include "../lib/database/sqlite_db.h"
 
 class DatabaseTest : public CppUnit::TestFixture
 {
@@ -26,14 +27,20 @@ public:
     suiteOfTests->addTest(new CppUnit::TestCaller<DatabaseTest>("Create table test",
                                 &DatabaseTest::createBasicTableTest));
     
+    suiteOfTests->addTest(new CppUnit::TestCaller<DatabaseTest>("Double close table test",
+				&DatabaseTest::doubleCloseTest));
+    
     return suiteOfTests;
   }
 
 
 protected:
+  void doubleCloseTest();
   void createBasicTableTest();
   
 private:
+  const std::string sqlitePath = "./unit-test.sqlite3";
+  const std::string sqliteDBPathParam = SQLiteDB::DATABASE_PATH_PARAM;
   IDatabase *databaseInstance;
 };
 

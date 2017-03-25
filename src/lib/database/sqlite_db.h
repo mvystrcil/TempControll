@@ -20,7 +20,7 @@ public:
   ~SQLiteDB();
 
   bool openDatabase(const std::unordered_map<std::string, std::string>& params);
-  
+  bool closeDatabase();
   bool executeQuery(SQL *query);
 
 private:
