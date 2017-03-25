@@ -24,7 +24,7 @@ void DatabaseTest::createBasicTableTest()
   const std::string path = "./unit-test.sqlite3";
   const std::string db = SQLiteDB::DATABASE_PATH_PARAM;
   
-  CPPUNIT_ASSERT(databaseInstance->openDatabase(params));
+  CPPUNIT_ASSERT(! (databaseInstance->openDatabase(params)));
   
   // Now open with parameters set
   params.insert({db, path});

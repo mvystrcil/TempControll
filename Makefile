@@ -1,5 +1,7 @@
 BUILD_DIR := ./build
+LIBS_DIR := $(BUILD_DIR)/lib
 SRC_DIRS := ./src
+PWD := $(shell pwd)
 UNITS_DIR := $(SRC_DIRS)/units
 EXTERNAL_DIR := $(SRC_DIRS)/external
 
@@ -21,20 +23,21 @@ UNITS_DEPS := $(UNITS_OBJS:.o=.d)
 
 INC_DIRS := $(shell find $(SRC_DIRS) -type d)
 INC_FLAGS := $(addprefix -I,$(INC_DIRS))
-LDFLAGS := -L/usr/lib/ -lm -ldl -lpthread -g $(shell pkg-config libxml++-2.6 --libs)
-LDFLAGS_UNITS := -L/usr/lib/ -lm -ldl -lcppunit -lpthread -g $(shell pkg-config libxml++-2.6 --libs)
+LDFLAGS := -L/usr/lib/ -L$(PWD)/$(LIBS_DIR) -lm -ldl -lpthread -lsqlite -g $(shell pkg-config libxml++-2.6 --libs)
+LDFLAGS_UNITS := -L/usr/lib/ -L$(PWD)/$(LIBS_DIR) -lm -ldl -lcppunit -lsqlite -lpthread -g $(shell pkg-config libxml++-2.6 --libs)
 D_UNITS := -D_UNIT_TESTS
 
 CXX_11 := -std=c++11
 CPPFLAGS := $(INC_FLAGS) $(CXX_11) $(shell pkg-config libxml++-2.6 --cflags) -I/usr/local/include -MMD -MP -g $(LD_FLAGS)
 
 CXX:=$(CROSS_COMPILE)$(CXX)
+GCC:=$(CROSS_COMPILE)$(CC)
 
 .PHONY: clean
 .PHONY: units
 .PHONY: external
 
-all: $(OBJS) $(MAIN_OBJS) $(UNITS_OBJS)
+all: external $(OBJS) $(MAIN_OBJS) $(UNITS_OBJS)
 	@echo "### Link $(TARGET_EXEC)"
 	$(CXX) $(OBJS) $(MAIN_OBJS) -o $(TARGET_EXEC) $(LDFLAGS)
 	@echo "### Link $(UNITS_EXEC)"
@@ -63,7 +66,8 @@ clean:
 	$(RM) units.log
 
 external:
-	$(EXTERNAL_DIR)/external.sh
+	$(MKDIR_P) $(LIBS_DIR)
+	$(EXTERNAL_DIR)/external.sh $(GCC) $(PWD) $(EXTERNAL_DIR) $(LIBS_DIR)
 
 MKDIR_P := mkdir -p
 
