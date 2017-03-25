@@ -4,7 +4,7 @@ const std::string SQLiteDB::DATABASE_PATH_PARAM  = "DATABASE_PATH";
 
 SQLiteDB::SQLiteDB(const std::string& databasePath) : m_databasePath(databasePath)
 {
-
+  database = nullptr;
 }
 
 SQLiteDB::~SQLiteDB()
@@ -61,23 +61,39 @@ bool SQLiteDB::closeDatabase()
   return true;
 }
 
+/*bool SQLiteDB::clearDatabase()
+{
+  if(database == nullptr)
+  {
+    // database not opened, so cannot delete it
+    return false;
+  }
+  
+  database->getFile();
+}*/
 
 /*
  * Distinguish based on type of SQL query and serialize the request
  * accodingly to its syntax
  */
-bool SQLiteDB::executeQuery(SQL *query)
+bool SQLiteDB::executeQuery(const SQL& query)
 {
   int rc = 0;
   char *err;
   
-  dbg << "Executing SQL query: " << query->queryToString();
+  if(! isDatabaseOpen())
+  {
+    errn << "Database is not opened - cannot execute query";
+    return false;
+  }
   
-  rc = sqlite3_exec(database, query->queryToString().c_str(), callback, 0, &err);
+  dbg << "Executing SQL query: " << query.queryToString();
+  
+  rc = sqlite3_exec(database, query.queryToString().c_str(), callback, 0, &err);
   
   if(rc != SQLITE_OK)
   {
-    warn << "Cannot execute query: " << query->queryToString();
+    warn << "Cannot execute query: " << query.queryToString();
     warn << "RC code: " << rc;
     
     sqlite3_free(err);
@@ -85,4 +101,9 @@ bool SQLiteDB::executeQuery(SQL *query)
   }
   
   return true;
+}
+
+bool SQLiteDB::isDatabaseOpen()
+{  
+  return (database == nullptr ? false : true);
 }

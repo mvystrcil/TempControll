@@ -23,24 +23,31 @@ public:
     CppUnit::TestSuite *suiteOfTests = new CppUnit::TestSuite("DatabaseTest cases");
 
     // Register all test functions
+    
+    /*suiteOfTests->addTest(new CppUnit::TestCaller<DatabaseTest>("Open table test",
+				&DatabaseTest::openDatabaseTest));
 
+    suiteOfTests->addTest(new CppUnit::TestCaller<DatabaseTest>("Double close table test",
+				&DatabaseTest::doubleCloseTest));*/
+    
     suiteOfTests->addTest(new CppUnit::TestCaller<DatabaseTest>("Create table test",
                                 &DatabaseTest::createBasicTableTest));
     
-    suiteOfTests->addTest(new CppUnit::TestCaller<DatabaseTest>("Double close table test",
-				&DatabaseTest::doubleCloseTest));
+    
     
     return suiteOfTests;
   }
 
 
 protected:
+  void openDatabaseTest();
   void doubleCloseTest();
   void createBasicTableTest();
   
 private:
   const std::string sqlitePath = "./unit-test.sqlite3";
   const std::string sqliteDBPathParam = SQLiteDB::DATABASE_PATH_PARAM;
+  const std::string sqlDatabaseName = "UnitTestTable";
   IDatabase *databaseInstance;
 };
 

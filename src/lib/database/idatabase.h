@@ -17,9 +17,9 @@ public:
   * All parameters are passed in a vector as strings
   */
   virtual bool openDatabase(const std::unordered_map< std::string, std::string >& params) = 0;
-  virtual bool closeDatabase() = 0;
+  virtual bool closeDatabase() = 0;;
   
-  virtual bool executeQuery(SQL *query) = 0;
+  virtual bool executeQuery(const SQL& query) = 0;
 };
 
 #endif
