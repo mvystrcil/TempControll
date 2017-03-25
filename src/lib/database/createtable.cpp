@@ -30,16 +30,39 @@ std::string CreateTable::queryToString() const
 {
   std::string query = "";
   std::string type;
+  bool column = false;
   std::vector<SQLColumn> copy = m_tableColumns;
-  std::vector<SQLColumn>::iterator iterator = copy.begin();
+  std::vector<SQLColumn>::iterator iterator = copy.begin();  
+  
+  // Maybe could be user some prepared statements ...
+  query.append("CREATE TABLE ").append(m_tableName).append("(");
   
   while(iterator != copy.end())
   {
-    dbg << "Found: " << ((SQLColumn) *iterator).getColumnName();
+    SQLColumn col = (SQLColumn) *iterator;
+    
+    if(column)
+    {
+      query.append(",");
+    }
+    
+    query.append(col.getColumnName()).append(" ");
+    query.append(SQLTypes::getColumnType(col.getColumnType())).append(" ");
+    
+    if(col.getID())
+    {
+      query.append("PRIMARY KEY").append(" ");
+    }
+    
+    if(col.getNotNullValue())
+    {
+      query.append("NOT NULL").append(" ");
+    }
+    
+    column = true;
     iterator++;
   }
   
-  query.append("CREATE TABLE ").append(m_tableName);
-  
+  query.append(");");
   return query;
 }
