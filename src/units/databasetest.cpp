@@ -4,6 +4,9 @@
 #include "../lib/database/database_factory.h"
 #include "../lib/database/createtable.h"
 #include "../lib/database/sql_column.h"
+#include "../lib/database/sqlite_db.h"
+
+#include <unordered_map>
 
 void DatabaseTest::setUp()
 {
@@ -17,6 +20,16 @@ void DatabaseTest::tearDown()
 
 void DatabaseTest::createBasicTableTest()
 {
+  std::unordered_map<std::string, std::string> params;
+  const std::string path = "./unit-test.sqlite3";
+  const std::string db = SQLiteDB::DATABASE_PATH_PARAM;
+  
+  CPPUNIT_ASSERT(databaseInstance->openDatabase(params));
+  
+  // Now open with parameters set
+  params.insert({db, path});
+  CPPUNIT_ASSERT(databaseInstance->openDatabase(params));
+  
   CreateTable ctb("UnitTestTable");
   ctb.appendColumn(SQLColumn("ID", SQLTypes::INT, true, true, true));
   ctb.appendColumn(SQLColumn("Name", SQLTypes::STRING));

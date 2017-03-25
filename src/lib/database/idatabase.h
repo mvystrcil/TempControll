@@ -5,6 +5,7 @@
 #include <vector>
 
 #include "sql.h"
+#include <unordered_map>
 
 class IDatabase {
 
@@ -14,9 +15,8 @@ public:
 
   /*
   * All parameters are passed in a vector as strings
-  * TODO: think about some better structure
   */
-  virtual bool openDatabase(std::vector<std::string> inputParams = std::vector<std::string>()) = 0;
+  virtual bool openDatabase(const std::unordered_map< std::string, std::string >& params) = 0;
   
   virtual bool executeQuery(SQL *query) = 0;
 };
