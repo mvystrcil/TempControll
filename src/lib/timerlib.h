@@ -16,12 +16,12 @@ private:
   void execute();
   void sleep(int milliseconds);
   
-public:
+public:  
   TimerLib(TimeoutCallback callback, int timeout);
   virtual ~TimerLib();
+  TimeoutCallback m_call;
   
   static const int PROBLEM_WHILE_THREAD_CREATION = -1;
-  TimeoutCallback m_call;
   
   // https://thebytekitchen.com/2013/01/14/harder-to-c-aligned-memory-allocation-4/
   bool stopExecution();

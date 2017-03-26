@@ -5,7 +5,7 @@
 
 #include <chrono>
 
-TimerLib::TimerLib(TimeoutCallback callback, int timeout) : m_call(std::move(callback)), m_timeout(timeout)
+TimerLib::TimerLib(TimeoutCallback callback, int timeout) : m_timeout(timeout), m_call(std::move(callback))
 {
   m_stop = false;
 }
