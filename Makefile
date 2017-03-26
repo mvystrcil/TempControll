@@ -28,7 +28,7 @@ LDFLAGS_UNITS := -L/usr/lib/ -L$(PWD)/$(LIBS_DIR) -lm -ldl -lcppunit -lsqlite -l
 D_UNITS := -D_UNIT_TESTS
 
 CXX_11 := -std=c++11
-CPPFLAGS := $(INC_FLAGS) $(CXX_11) $(shell pkg-config libxml++-2.6 --cflags) -I/usr/local/include -MMD -MP -g $(LD_FLAGS)
+CPPFLAGS := $(INC_FLAGS) $(CXX_11) $(shell pkg-config libxml++-2.6 --cflags) -I/usr/local/include -MMD -MP -Wall -Werror -g $(LD_FLAGS)
 
 CXX:=$(CROSS_COMPILE)$(CXX)
 GCC:=$(CROSS_COMPILE)$(CC)
