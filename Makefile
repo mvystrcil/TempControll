@@ -64,6 +64,8 @@ clean:
 	$(RM) -r $(BUILD_DIR)
 	$(RM) logger.log
 	$(RM) units.log
+	$(RM) build/unit-test.sqlite3
+	$(RM) unit-test.sqlite3
 
 external:
 	$(MKDIR_P) $(LIBS_DIR)
