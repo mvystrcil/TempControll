@@ -1,10 +1,13 @@
 #include "supervision.h"
 #include "logger.h"
 #include "../consts/threads.h"
+#include "lib/database/database_factory.h"
+#include "consts/databases.h"
 
 #include <thread>
 #include <chrono>
 #include <iostream>
+#include <unordered_map>
 
 std::vector<Callback> Supervision::queue;
 
@@ -44,6 +47,17 @@ bool Supervision::loadConfiguration()
   }
   
   return this->supervise();
+}
+
+bool Supervision::openDatabaseConnection()
+{
+  std::unordered_map<std::string, std::string> settings;
+  
+  settings.insert({SQLITE_DATABASE_PATH_ATTR, "TempController.sqlite3"});
+  
+  DatabaseFactory factory = DatabaseFactory::getInstance();
+  // Temporary workaround ...
+  factory.loadSettings({});
 }
 
 void Supervision::setConfigurationFile(const std::string& conf)

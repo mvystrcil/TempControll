@@ -10,26 +10,37 @@
 
 void DatabaseTest::setUp()
 {
-  databaseInstance = DatabaseFactory::getInstance().getDatabase(DatabaseFactory::DatabaseTypes::SQLITE);
+  
 }
 
 void DatabaseTest::tearDown()
 {
-
-  
-  databaseInstance->closeDatabase();
 }
 
 void DatabaseTest::openDatabaseTest()
 {
   std::unordered_map<std::string, std::string> params;
   
-  // Test opening database without settings
-  CPPUNIT_ASSERT(! (databaseInstance->openDatabase(params)));
+  // Try to get database without settings in DB Factory
+  databaseInstance = DatabaseFactory::getInstance().getDatabase(DatabaseFactory::DatabaseTypes::SQLITE);
+  CPPUNIT_ASSERT(databaseInstance == nullptr);
+  
+  // Try to get database without force reload param
+  DatabaseFactory::getInstance().loadSettings(params);
+  databaseInstance = DatabaseFactory::getInstance().getDatabase(DatabaseFactory::DatabaseTypes::SQLITE);
+  CPPUNIT_ASSERT(databaseInstance == nullptr);
+  
+  // Try to get database with empty parameters set
+  DatabaseFactory::getInstance().loadSettings(params, true);
+  databaseInstance = DatabaseFactory::getInstance().getDatabase(DatabaseFactory::DatabaseTypes::SQLITE);
+  CPPUNIT_ASSERT(databaseInstance == nullptr);
   
   // Now open with parameters set
   params.insert({sqliteDBPathParam, sqlitePath});
-  CPPUNIT_ASSERT(databaseInstance->openDatabase(params));
+  DatabaseFactory::getInstance().loadSettings(params, true);
+  databaseInstance = DatabaseFactory::getInstance().getDatabase(DatabaseFactory::DatabaseTypes::SQLITE);
+  
+  CPPUNIT_ASSERT(databaseInstance != nullptr);
 }
 
 void DatabaseTest::doubleCloseTest()
@@ -55,7 +66,10 @@ void DatabaseTest::createBasicTableTest()
   DropTable dtbl(sqlDatabaseName);
   
   params.insert({sqliteDBPathParam, sqlitePath});
-  CPPUNIT_ASSERT(databaseInstance->openDatabase(params));
+  
+  DatabaseFactory::getInstance().loadSettings(params);
+  databaseInstance = DatabaseFactory::getInstance().getDatabase(DatabaseFactory::DatabaseTypes::SQLITE);
+  CPPUNIT_ASSERT(databaseInstance != nullptr);
   
   // Fill in some data to database  
   ctb.appendColumn(SQLColumn("ID", SQLTypes::INT, true, true, true));

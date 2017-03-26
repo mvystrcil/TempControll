@@ -13,9 +13,7 @@ class SQLiteDB : public IDatabase
 private:
   sqlite3 *database;
   
-public:
-  static const std::string DATABASE_PATH_PARAM;
-  
+public:  
   SQLiteDB(const std::string &databasePath = "./temp_controll_db.sqlite3");
   ~SQLiteDB();
 

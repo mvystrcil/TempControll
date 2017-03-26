@@ -3,6 +3,7 @@
 
 #include "../lib/timerlib.h"
 #include "thermometer/ithermometer.hpp"
+#include "lib/database/idatabase.h"
 
 class ThermometerStatistics
 {
@@ -20,8 +21,10 @@ private:
   static const int defaultTimeout = 30000;
   int updateTimeout;
   TimerLib *timer = nullptr;
+  IDatabase *database = nullptr;
   
   void updateAllThermometers();
+  bool preparePersistentStorage();
   bool storeThermometerData(const IThermometer* thermometer);
 };
 

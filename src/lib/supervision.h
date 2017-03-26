@@ -19,6 +19,7 @@ private:
   ThermometerStatistics statistics;
   
   bool loadConfiguration();
+  bool openDatabaseConnection();
   bool supervise();
   bool startInThread(const Callback& callback);
   void execute(const Callback& callback);

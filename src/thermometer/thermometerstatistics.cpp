@@ -1,6 +1,8 @@
 #include "thermometerstatistics.h"
 #include "thermometerslist.h"
 #include "../lib/logger.h"
+#include "lib/database/database_factory.h"
+#include "lib/database/createtable.h"
 
 using namespace std::placeholders;
 
@@ -74,4 +76,23 @@ bool ThermometerStatistics::storeThermometerData(const IThermometer* thermometer
 {
   dbg << "Store thermometer: " << thermometer->getThermometerName() << " temp: " << thermometer->getTemperature();
 }
+
+bool ThermometerStatistics::preparePersistentStorage()
+{
+  CreateTable thermometerStats("ThermometerStats");
+  SQLColumn id("ID", SQLTypes::INT, true, true, true);
+  SQLColumn name("Name", SQLTypes::STRING);
+  SQLColumn address("Address", SQLTypes::STRING);
+  SQLColumn temperature("Temperature", SQLTypes::DOUBLE);
+  
+  thermometerStats.appendColumn(id);
+  thermometerStats.appendColumn(name);
+  thermometerStats.appendColumn(address);
+  thermometerStats.appendColumn(temperature);
+  
+  
+  
+  database = DatabaseFactory::getInstance().getDatabase(DatabaseFactory::DatabaseTypes::SQLITE);
+}
+
 

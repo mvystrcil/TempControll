@@ -1,6 +1,5 @@
 #include "sqlite_db.h"
-
-const std::string SQLiteDB::DATABASE_PATH_PARAM  = "DATABASE_PATH";
+//#include "consts/databases.h"
 
 SQLiteDB::SQLiteDB(const std::string& databasePath) : m_databasePath(databasePath)
 {
@@ -16,7 +15,7 @@ bool SQLiteDB::openDatabase(const std::unordered_map< std::string, std::string >
 {
   int rc = 0;
   std::string file;
-  auto findIterator = params.find(DATABASE_PATH_PARAM);
+  auto findIterator = params.find("DATABASE_PATH");
   
   if(findIterator != params.end())
   {
@@ -34,7 +33,7 @@ bool SQLiteDB::openDatabase(const std::unordered_map< std::string, std::string >
     return true;
   }
   
-  warn << "Cannot find attribute " << DATABASE_PATH_PARAM << ", DB not opened";
+  warn << "Cannot find attribute " << "DATABASE_PATH" << ", DB not opened";
   return false;
 }
 

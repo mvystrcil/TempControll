@@ -11,6 +11,7 @@
 #include "../lib/database/idatabase.h"
 #include "../lib/database/database_factory.h"
 #include "../lib/database/sqlite_db.h"
+#include "../consts/databases.h"
 
 class DatabaseTest : public CppUnit::TestFixture
 {
@@ -24,10 +25,10 @@ public:
 
     // Register all test functions
     
-    /*suiteOfTests->addTest(new CppUnit::TestCaller<DatabaseTest>("Open table test",
+    suiteOfTests->addTest(new CppUnit::TestCaller<DatabaseTest>("Open table test",
 				&DatabaseTest::openDatabaseTest));
 
-    suiteOfTests->addTest(new CppUnit::TestCaller<DatabaseTest>("Double close table test",
+    /*suiteOfTests->addTest(new CppUnit::TestCaller<DatabaseTest>("Double close table test",
 				&DatabaseTest::doubleCloseTest));*/
     
     suiteOfTests->addTest(new CppUnit::TestCaller<DatabaseTest>("Create table test",
@@ -46,7 +47,7 @@ protected:
   
 private:
   const std::string sqlitePath = "./unit-test.sqlite3";
-  const std::string sqliteDBPathParam = SQLiteDB::DATABASE_PATH_PARAM;
+  const std::string sqliteDBPathParam = SQLITE_DATABASE_PATH_ATTR;
   const std::string sqlDatabaseName = "UnitTestTable";
   IDatabase *databaseInstance;
 };
