@@ -26,6 +26,8 @@ bool TimerLib::start()
   // make a connection between this object and new thread
   Callback timer = std::bind(&TimerLib::execute, this);
   Supervision::enqueueNewThread(timer);
+  
+  return true;
 }
 
 /**

@@ -58,6 +58,8 @@ bool Supervision::openDatabaseConnection()
   DatabaseFactory factory = DatabaseFactory::getInstance();
   // Temporary workaround ...
   factory.loadSettings(settings);
+  
+  return true;
 }
 
 void Supervision::setConfigurationFile(const std::string& conf)
@@ -77,7 +79,8 @@ bool Supervision::startInThread(const Callback& callback)
   th->detach();
   
   startedThreads.push_back(th);
-  dbg << "Starting new thread";
+  
+  return true;
 }
 
 void Supervision::stop(const string& verbose)
