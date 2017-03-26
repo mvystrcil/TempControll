@@ -84,7 +84,7 @@ std::string Logger::toString(const LogLevel& level)
 }
 
 
-Logger& Logger::operator=(const Logger&)
+/*Logger& Logger::operator=(const Logger& other)
 {
-
-}
+  return other;
+}*/

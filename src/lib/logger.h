@@ -35,7 +35,7 @@ private:
   static std::ofstream file;
   
   Logger(const Logger& other);
-  Logger& operator =(const Logger&);
+  //Logger& operator =(const Logger& other);
   static std::string toString(const LogLevel& level);
 
 public:

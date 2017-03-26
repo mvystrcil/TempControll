@@ -30,7 +30,7 @@ private:
   {
     int i;
     for(i=0; i<argc; i++){
-      errn << azColName[i] << argv[i] ? argv[i] : "NULL";
+      errn << azColName[i] << (argv[i] ? argv[i] : "NULL");
     }
     return 0; 
   }

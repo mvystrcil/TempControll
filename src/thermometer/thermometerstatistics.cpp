@@ -63,9 +63,9 @@ void ThermometerStatistics::updateAllThermometers(void)
 {  
   ThermometersList& list = ThermometersList::getInstance();
   vector<Thermometer *> array = list.getRegisteredList();
-  vector<Thermometer *>::iterator it = array.begin();
+  vector<Thermometer *>::iterator it;
   
-  for(it; it != array.end(); it++)
+  for(it = array.begin(); it != array.end(); it++)
   {
     IThermometer *thermometer = *it;
     this->storeThermometerData(thermometer);
@@ -75,6 +75,8 @@ void ThermometerStatistics::updateAllThermometers(void)
 bool ThermometerStatistics::storeThermometerData(const IThermometer* thermometer)
 {
   dbg << "Store thermometer: " << thermometer->getThermometerName() << " temp: " << thermometer->getTemperature();
+  
+  return true;
 }
 
 bool ThermometerStatistics::preparePersistentStorage()
@@ -93,6 +95,8 @@ bool ThermometerStatistics::preparePersistentStorage()
   
   
   database = DatabaseFactory::getInstance().getDatabase(DatabaseFactory::DatabaseTypes::SQLITE);
+  
+  return true;
 }
 
 

@@ -54,11 +54,14 @@ bool Thermometer::setMinMaxTemp(const double min, const double max)
   
   this->minTemp = min;
   this->maxTemp = max;
+  
+  return true;
 }
 
 bool Thermometer::setAddress(const string& address)
 {
   this->address = address;
+  return true;
 }
 
 bool Thermometer::operator ==(const Thermometer& other) const

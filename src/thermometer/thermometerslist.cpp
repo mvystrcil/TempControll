@@ -75,6 +75,8 @@ bool ThermometersList::unregisterAllThermometers()
     this->unregisterThermometer(thermometer);
     iterator++;
   }
+  
+  return true;
 }
 
 vector<Thermometer *> ThermometersList::getRegisteredList() const

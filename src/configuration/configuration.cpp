@@ -16,8 +16,8 @@ bool Configuration::loadThermometers(xmlpp::Node *node, ThermometerStatistics& s
 {
   xmlpp::Node *child;
   xmlpp::Element *element;
-  xmlpp::ContentNode *content;
-  xmlpp::TextNode *text;
+  //xmlpp::ContentNode *content;
+  //xmlpp::TextNode *text;
   
   Thermometer *thermometer;
   
@@ -48,6 +48,8 @@ bool Configuration::loadThermometers(xmlpp::Node *node, ThermometerStatistics& s
     
     child = child->get_next_sibling();
   }
+  
+  return true;
 }
 
 bool Configuration::loadThermometerSettings(xmlpp::Node* node, Thermometer *thermometer)
@@ -82,6 +84,8 @@ bool Configuration::loadThermometerSettings(xmlpp::Node* node, Thermometer *ther
   
   thermometer->setAddress(address);
   thermometer->setMinMaxTemp(minTemp, maxTemp);
+  
+  return true;
 }
 
 bool Configuration::loadConfiguration(ThermometerStatistics& statistics)

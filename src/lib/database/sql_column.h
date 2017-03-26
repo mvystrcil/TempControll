@@ -21,9 +21,8 @@ public:
   
 private:
   std::string m_columnName;
-  bool m_notNull, m_id, m_autoInc;
-  
   SQLTypes::ColumnType m_columnType;
+  bool m_id, m_autoInc, m_notNull;
 
 };
 
