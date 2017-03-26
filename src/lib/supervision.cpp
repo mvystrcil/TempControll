@@ -57,7 +57,7 @@ bool Supervision::openDatabaseConnection()
   
   DatabaseFactory factory = DatabaseFactory::getInstance();
   // Temporary workaround ...
-  factory.loadSettings({});
+  factory.loadSettings(settings);
 }
 
 void Supervision::setConfigurationFile(const std::string& conf)
