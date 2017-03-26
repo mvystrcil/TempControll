@@ -8,6 +8,8 @@
 #include "../lib/logger.h"
 
 static bool consoleEnabled = false;
+static bool timeAndTempTest = false;
+static bool databaseTest = false;
 
 bool parseInputArgs(int argc, char *argv[])
 {
@@ -16,12 +18,25 @@ bool parseInputArgs(int argc, char *argv[])
   
   dbg << "Parsing input arguments";
   
-  while((opt = getopt(argc, argv, "c")) != -1)
+  while((opt = getopt(argc, argv, "actd")) != -1)
   {
     switch(opt)
     {
       case 'c':
 	consoleEnabled = true;
+	break;
+	
+      case 't':
+	timeAndTempTest = true;
+	break;
+	
+      case 'd':
+	databaseTest = true;
+	break;
+	
+      case 'a':
+	timeAndTempTest = true;
+	databaseTest = true;
 	break;
       
       default:
@@ -46,9 +61,16 @@ int main(int argc, char *argv[]) {
   
   CppUnit::TextUi::TestRunner runner;
   
-  runner.addTest(ThermometerTest::suite());
-  runner.addTest(TimerLibTest::suite());  
-  runner.addTest(DatabaseTest::suite());
+  if(timeAndTempTest)
+  {
+    runner.addTest(ThermometerTest::suite());
+    runner.addTest(TimerLibTest::suite());  
+  }
+  
+  if(databaseTest)
+  {
+    runner.addTest(DatabaseTest::suite());
+  }
   
   dbg << "Running the unit tests.";
   runner.run();
