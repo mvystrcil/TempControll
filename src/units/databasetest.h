@@ -34,6 +34,12 @@ public:
     suiteOfTests->addTest(new CppUnit::TestCaller<DatabaseTest>("Create table test",
                                 &DatabaseTest::createBasicTableTest));
     
+    suiteOfTests->addTest(new CppUnit::TestCaller<DatabaseTest>("Create table test",
+                                &DatabaseTest::createBasicTableTest));
+    
+    suiteOfTests->addTest(new CppUnit::TestCaller<DatabaseTest>("Create table and insert values",
+				&DatabaseTest::insertIntoTable));
+    
     
     
     return suiteOfTests;
@@ -44,6 +50,7 @@ protected:
   void openDatabaseTest();
   void doubleCloseTest();
   void createBasicTableTest();
+  void insertIntoTable();
   
 private:
   const std::string sqlitePath = "./unit-test.sqlite3";

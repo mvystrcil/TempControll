@@ -80,6 +80,8 @@ bool SQLiteDB::executeQuery(const SQL& query)
   int rc = 0;
   char *err;
   
+  dbg << "Start with execute query";
+  
   if(! isDatabaseOpen())
   {
     errn << "Database is not opened - cannot execute query";

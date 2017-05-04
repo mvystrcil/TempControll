@@ -6,7 +6,7 @@
 class SQLTypes {
 
 public:
-  enum ColumnType {INT, DOUBLE, STRING};
+  enum ColumnType {INT, DOUBLE, STRING, DATE};
   //std::string mapping[] = {"INT", "DOUBLE", "STRING"};
   
   static std::string getColumnType(const SQLTypes::ColumnType& type)
@@ -23,6 +23,10 @@ public:
 	
       case SQLTypes::STRING:
 	return "STRING";
+	break;
+	
+      case SQLTypes::DATE:
+	return "DATE";
 	break;
 	
       default:

@@ -11,6 +11,11 @@ static bool consoleEnabled = false;
 static bool timeAndTempTest = false;
 static bool databaseTest = false;
 
+void print_usage()
+{
+  errn << "UnitTests a[all tests] c[enable console output] t[time and temp tests] d[database tests]";
+}
+
 bool parseInputArgs(int argc, char *argv[])
 {
   char opt;
@@ -40,7 +45,9 @@ bool parseInputArgs(int argc, char *argv[])
 	break;
       
       default:
-	warn << "Unknown program argument " << opt;return false;
+	warn << "Unknown program argument " << opt;
+	print_usage();
+	return false;
 	break;
     }
   }
@@ -50,6 +57,7 @@ bool parseInputArgs(int argc, char *argv[])
 
 int main(int argc, char *argv[]) { 
   Logger::setReportingLevel(DEBUG);
+  bool testStarted = false;
   
   if(! parseInputArgs(argc, argv))
   {
@@ -65,11 +73,19 @@ int main(int argc, char *argv[]) {
   {
     runner.addTest(ThermometerTest::suite());
     runner.addTest(TimerLibTest::suite());  
+    testStarted = true;
   }
   
   if(databaseTest)
   {
     runner.addTest(DatabaseTest::suite());
+    testStarted = true;
+  }
+  
+  if(testStarted == false)
+  {
+    print_usage();
+    return -1;
   }
   
   dbg << "Running the unit tests.";

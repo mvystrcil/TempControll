@@ -15,6 +15,23 @@ void DatabaseTest::setUp()
 
 void DatabaseTest::tearDown()
 {
+  DropTable dtbl(sqlDatabaseName);
+  std::unordered_map<std::string, std::string> params;
+  
+  params.insert({sqliteDBPathParam, sqlitePath});
+  
+  DatabaseFactory::getInstance().loadSettings(params);
+  databaseInstance = DatabaseFactory::getInstance().getDatabase(DatabaseFactory::DatabaseTypes::SQLITE);
+  
+  if(databaseInstance == nullptr)
+  {
+    errn << "Cannot get database instance while tearDown()...";
+    errn << "Please mind to delete database by yourself";
+    return;
+  }
+  
+  // Clear database
+  databaseInstance->executeQuery(dtbl);
 }
 
 void DatabaseTest::openDatabaseTest()
@@ -61,10 +78,8 @@ void DatabaseTest::doubleCloseTest()
 
 void DatabaseTest::createBasicTableTest()
 {
-  std::unordered_map<std::string, std::string> params;
   CreateTable ctb(sqlDatabaseName);
-  DropTable dtbl(sqlDatabaseName);
-  
+  std::unordered_map<std::string, std::string> params;
   params.insert({sqliteDBPathParam, sqlitePath});
   
   DatabaseFactory::getInstance().loadSettings(params);
@@ -76,9 +91,28 @@ void DatabaseTest::createBasicTableTest()
   ctb.appendColumn(SQLColumn("Name", SQLTypes::STRING));
   ctb.appendColumn(SQLColumn("Address", SQLTypes::STRING));
   
-  CPPUNIT_ASSERT(databaseInstance->executeQuery(ctb));
   dbg << "Run basic DatabaseTest";  
+  CPPUNIT_ASSERT(databaseInstance->executeQuery(ctb)); 
+}
+
+void DatabaseTest::insertIntoTable()
+{
+  std::unordered_map<std::string, std::string> params;
+  CreateTable ctbl("TestTable");
   
-  // Clear database
-  databaseInstance->executeQuery(dtbl);
+  dbg << "Prepare table";
+  
+  ctbl.appendColumn(SQLColumn("ID", SQLTypes::ColumnType::INT, true, true, true));
+  ctbl.appendColumn(SQLColumn("thermometerName", SQLTypes::ColumnType::STRING));
+  ctbl.appendColumn(SQLColumn("colltime", SQLTypes::ColumnType::DATE));
+  
+  params.insert({sqliteDBPathParam, sqlitePath});
+  DatabaseFactory::getInstance().loadSettings(params, true);
+  
+  dbg << "Get table instance";
+  databaseInstance = DatabaseFactory::getInstance().getDatabase(DatabaseFactory::DatabaseTypes::SQLITE);
+  CPPUNIT_ASSERT(databaseInstance != nullptr);
+    
+  dbg << "Execute query... " << ctbl.queryToString();
+  databaseInstance->executeQuery(ctbl);
 }

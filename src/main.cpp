@@ -34,6 +34,13 @@ bool checkMandatoryParameters()
   return true;
 }
 
+void printUsage()
+{
+  errn << "################";
+  errn << "TempController -c ../conf/init.xml -d debug -f debuglog.log";
+  errn << "################";
+}
+
 bool parseInputArgs(int argc, char *argv[])
 {
   char opt;
@@ -112,6 +119,7 @@ int main(int argc, char* argv[])
   if(! parseInputArgs(argc, argv))
   {
     errn << "Cannot parse input arguments, will exit";
+    printUsage();
     return BREAK_INPUT_ARGUMENTS;
   }
   
